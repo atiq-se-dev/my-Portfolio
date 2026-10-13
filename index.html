@@ -14,38 +14,44 @@
 
   <!-- Navbar -->
   <nav>
-    <a class="nav-logo" href="#home" data-goto="home">Atiq<span>.</span>dev</a>
+  <!-- Logo -->
+  <a class="nav-logo" href="#home" data-goto="home">
+    Atiq<span>.</span>dev
+  </a>
 
-    <ul class="nav-links">
-      <li><a href="#home" data-page="home" class="active">Home</a></li>
-      <li><a href="#services" data-page="services">Services</a></li>
-      <li><a href="#projects" data-page="projects">Projects</a></li>
-      <li><a href="#skills" data-page="skills">Skills</a></li>
-      <li><a href="/tools/">🧰 Tools</a></li>
-      <li><a href="#contact" data-page="contact">Contact</a></li>
-    </ul>
+  <!-- Navigation Links -->
+  <ul class="nav-links">
+    <li><a href="#home" data-page="home" class="active">Home</a></li>
+    <li><a href="#services" data-page="services">Services</a></li>
+    <li><a href="#projects" data-page="projects">Projects</a></li>
+    <li><a href="#skills" data-page="skills">Skills</a></li>
+    <li><a href="/tools/">🧰 Tools</a></li>
+    <li><a href="#contact" data-page="contact">Contact</a></li>
+  </ul>
 
-    <button class="nav-hire-btn" data-goto="contact">Hire Me →</button>
-    <!-- Theme Toggle Button -->
-    <div class="theme-toggle" id="themeToggle" title="Toggle Theme">
-      <div class="tt-track">
-        <div class="tt-thumb">
-          <span class="tt-icon-dark">🌙</span>
-          <span class="tt-icon-light">☀️</span>
-        </div>
-      </div>
-      <span class="tt-label" id="themeLabel">Dark</span>
-    </div>
+  <!-- Hire Me Button -->
+  <button class="nav-hire-btn" data-goto="contact" type="button">
+    Hire Me →
+  </button>
 
-    
-    <!-- Hamburger Menu -->
-    <button class="hamburger" aria-label="Toggle menu" type="button">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </nav>
+  <!-- Theme Toggle -->
+  <div class="theme-toggle" id="themeToggle" title="Toggle Theme">
+    <!-- Apna purana theme-toggle content yahan preserve karein -->
+  </div>
 
+  <!-- Mobile Hamburger: sirf ek button -->
+  <button
+    class="hamburger"
+    id="hamburger"
+    aria-label="Toggle menu"
+    aria-expanded="false"
+    type="button"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
   <!-- Home Page -->
   <div id="home" class="page active">
 
