@@ -1,433 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#07111f">
-  <meta name="description" content="Free online image, PDF and developer tools. Fast, simple and privacy-friendly tools by Atiq.">
-  <title>Online Tools — Atiq</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #07111f;
-      --bg-soft: #0b1728;
-      --panel: rgba(16, 31, 51, .78);
-      --panel-solid: #101f33;
-      --line: rgba(148, 180, 214, .15);
-      --text: #f3f7ff;
-      --muted: #9eb0c7;
-      --cyan: #35d8f2;
-      --blue: #5d8dff;
-      --green: #57e6b1;
-      --shadow: 0 20px 60px rgba(0, 0, 0, .24);
-      --radius: 22px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
-    body {
-      margin: 0; min-height: 100vh; color: var(--text);
-      background:
-        radial-gradient(ellipse at 12% 0%, rgba(32, 118, 177, .18), transparent 38%),
-        radial-gradient(ellipse at 88% 20%, rgba(69, 69, 190, .14), transparent 32%),
-        var(--bg);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.6; overflow-x: hidden;
-    }
-    a { color: inherit; text-decoration: none; }
-    button, input { font: inherit; }
-    button { color: inherit; }
-    .container { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
-    .topbar {
-      position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line);
-      background: rgba(7, 17, 31, .82); backdrop-filter: blur(18px);
-    }
-    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.035em; }
-    .brand-mark {
-      display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px;
-      color: #06111d; background: linear-gradient(135deg, var(--cyan), #8af5dc);
-      box-shadow: 0 7px 24px rgba(53, 216, 242, .18); font-size: 21px;
-    }
-    .brand-name { font-size: 17px; }
-    .brand-name small { display: block; margin-top: -4px; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-    .nav-links { display: flex; align-items: center; gap: 26px; color: var(--muted); font-size: 14px; }
-    .nav-links a { transition: color .2s ease; }
-    .nav-links a:hover, .nav-links a:focus-visible { color: var(--cyan); }
-    .nav-cta {
-      padding: 10px 15px; border: 1px solid rgba(53,216,242,.32); border-radius: 12px;
-      color: var(--cyan) !important; background: rgba(53,216,242,.07);
-    }
-    .menu-toggle { display: none; border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: 9px 12px; cursor: pointer; }
-    .hero { position: relative; padding: 76px 0 52px; }
-    .hero-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 38px; align-items: center; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 9px; padding: 7px 12px; border-radius: 999px;
-      border: 1px solid rgba(53,216,242,.2); background: rgba(53,216,242,.07);
-      color: #9ceefa; font-size: 12px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase;
-    }
-    .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 5px rgba(87,230,177,.1); }
-    h1 { max-width: 700px; margin: 20px 0 18px; font-size: clamp(42px, 6vw, 68px); line-height: 1.04; letter-spacing: -.065em; }
-    .gradient-text { color: transparent; background: linear-gradient(95deg, var(--cyan), #8faaff 70%, #c5a9ff); -webkit-background-clip: text; background-clip: text; }
-    .hero-copy { max-width: 610px; margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 18px); }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 13px 18px; border-radius: 13px; border: 1px solid transparent; font-weight: 750; font-size: 14px; transition: transform .2s, box-shadow .2s, border-color .2s; cursor: pointer; }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary { color: #04111b; background: linear-gradient(100deg, var(--cyan), #8cf4d6); box-shadow: 0 10px 30px rgba(53,216,242,.14); }
-    .btn-secondary { color: var(--text); border-color: var(--line); background: rgba(255,255,255,.035); }
-    .hero-visual { min-height: 320px; position: relative; display: grid; place-items: center; }
-    .orb {
-      position: absolute; width: 260px; height: 260px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 28%, rgba(53,216,242,.27), rgba(93,141,255,.11) 46%, transparent 70%);
-      filter: blur(4px); animation: float 7s ease-in-out infinite;
-    }
-    .tool-window {
-      width: min(100%, 390px); position: relative; padding: 19px; border: 1px solid rgba(146,190,231,.2);
-      border-radius: 24px; background: linear-gradient(145deg, rgba(22,43,68,.94), rgba(9,22,38,.92)); box-shadow: var(--shadow);
-      transform: rotate(2deg);
-    }
-    .window-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; }
-    .dots { display: flex; gap: 5px; }
-    .dots i { width: 7px; height: 7px; border-radius: 50%; background: #45617d; }
-    .preview-tile { margin-top: 17px; min-height: 130px; display: grid; place-items: center; border: 1px dashed rgba(53,216,242,.3); border-radius: 17px; background: rgba(53,216,242,.045); font-size: 50px; }
-    .fake-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; font-size: 12px; color: var(--muted); }
-    .fake-bar { height: 7px; flex: 1; max-width: 170px; overflow: hidden; border-radius: 9px; background: #263b53; }
-    .fake-bar span { display: block; width: 68%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), var(--blue)); }
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 26px; max-width: 600px; }
-    .stat { padding: 14px 15px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.025); }
-    .stat strong { display: block; font-size: 20px; letter-spacing: -.03em; }
-    .stat span { color: var(--muted); font-size: 12px; }
-    .section { padding: 38px 0 66px; }
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
-    .section-kicker { margin: 0 0 7px; color: var(--cyan); font-size: 12px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
-    h2 { margin: 0; font-size: clamp(27px, 4vw, 38px); line-height: 1.15; letter-spacing: -.045em; }
-    .section-desc { max-width: 560px; margin: 9px 0 0; color: var(--muted); font-size: 14px; }
-    .search-wrap { position: relative; width: min(100%, 310px); flex-shrink: 0; }
-    .search-wrap span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
-    .search { width: 100%; padding: 13px 14px 13px 42px; color: var(--text); border: 1px solid var(--line); outline: none; border-radius: 14px; background: rgba(12,26,43,.85); transition: border-color .2s, box-shadow .2s; }
-    .search:focus { border-color: rgba(53,216,242,.65); box-shadow: 0 0 0 4px rgba(53,216,242,.08); }
-    .filters { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 25px; }
-    .filter {
-      padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted);
-      background: rgba(255,255,255,.025); cursor: pointer; font-size: 13px; font-weight: 700; transition: all .2s;
-    }
-    .filter:hover { color: var(--text); border-color: rgba(53,216,242,.35); }
-    .filter.active { color: #04111b; background: var(--cyan); border-color: var(--cyan); }
-    .category-block { margin-top: 34px; }
-    .category-title { display: flex; align-items: center; gap: 10px; margin: 0 0 15px; font-size: 19px; letter-spacing: -.025em; }
-    .category-title .cat-icon { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.035); }
-    .tool-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
-    .tool-card {
-      min-width: 0; position: relative; display: flex; flex-direction: column; min-height: 218px; padding: 20px;
-      border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
-      background: linear-gradient(145deg, rgba(18,36,59,.85), rgba(11,24,41,.83));
-      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-    }
-    .tool-card::after { content: ""; position: absolute; width: 110px; height: 110px; top: -58px; right: -40px; border-radius: 50%; background: rgba(53,216,242,.08); filter: blur(2px); pointer-events: none; }
-    .tool-card:hover { transform: translateY(-5px); border-color: rgba(53,216,242,.35); box-shadow: 0 16px 36px rgba(0,0,0,.18); }
-    .tool-top { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
-    .tool-icon { display: grid; place-items: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: 15px; background: linear-gradient(145deg, rgba(53,216,242,.14), rgba(93,141,255,.12)); border: 1px solid rgba(53,216,242,.12); font-size: 24px; }
-    .status { padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 10px; font-weight: 800; white-space: nowrap; text-transform: uppercase; letter-spacing: .06em; }
-    .status.ready { color: var(--green); border-color: rgba(87,230,177,.22); background: rgba(87,230,177,.07); }
-    .tool-card h4 { margin: 16px 0 5px; font-size: 17px; line-height: 1.3; letter-spacing: -.025em; }
-    .tool-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
-    .tool-link { display: inline-flex; align-items: center; gap: 7px; width: fit-content; margin-top: auto; padding-top: 18px; color: var(--cyan); font-size: 13px; font-weight: 800; }
-    .tool-link.disabled { color: #8192a9; cursor: default; }
-    .empty-state { display: none; padding: 40px 20px; border: 1px dashed var(--line); border-radius: 18px; text-align: center; color: var(--muted); }
-    .empty-state strong { display: block; color: var(--text); font-size: 18px; margin-bottom: 5px; }
-    .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-    .how-card { padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.025); }
-    .how-number { color: var(--cyan); font-size: 12px; font-weight: 900; letter-spacing: .12em; }
-    .how-card h3 { margin: 8px 0 5px; font-size: 16px; }
-    .how-card p { margin: 0; color: var(--muted); font-size: 13px; }
-    .privacy-banner { display: flex; align-items: center; gap: 18px; padding: 23px; margin-top: 30px; border: 1px solid rgba(87,230,177,.16); border-radius: 20px; background: linear-gradient(100deg, rgba(87,230,177,.07), rgba(53,216,242,.035)); }
-    .privacy-icon { display: grid; place-items: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: 15px; background: rgba(87,230,177,.1); font-size: 25px; }
-    .privacy-banner h3 { margin: 0 0 4px; font-size: 16px; }
-    .privacy-banner p { margin: 0; color: var(--muted); font-size: 13px; }
-    footer { padding: 27px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
-    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .footer-links { display: flex; gap: 18px; }
-    .footer-links a:hover { color: var(--cyan); }
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
-    .reveal.in-view { opacity: 1; transform: translateY(0); }
-    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-13px) scale(1.035); } }
-    @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr .8fr; gap: 15px; }
-      .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .nav-links { gap: 16px; }
-    }
-    @media (max-width: 680px) {
-      .container { width: min(100% - 28px, 540px); }
-      .nav { min-height: 66px; }
-      .menu-toggle { display: inline-flex; align-items: center; gap: 7px; }
-      .nav-links {
-        display: none; position: absolute; top: 65px; left: 14px; right: 14px; padding: 15px;
-        flex-direction: column; align-items: stretch; gap: 0; border: 1px solid var(--line);
-        border-radius: 16px; background: #0b1728; box-shadow: var(--shadow);
-      }
-      .nav-links.open { display: flex; }
-      .nav-links a { padding: 12px 10px; }
-      .nav-cta { text-align: center; margin-top: 5px; }
-      .hero { padding: 53px 0 28px; }
-      .hero-grid { grid-template-columns: 1fr; }
-      .hero-visual { min-height: 265px; margin-top: 5px; }
-      .tool-window { max-width: 350px; }
-      .orb { width: 220px; height: 220px; }
-      .stats { gap: 8px; }
-      .stat { padding: 12px 10px; }
-      .stat strong { font-size: 17px; }
-      .stat span { font-size: 11px; }
-      .section { padding: 34px 0 48px; }
-      .section-head { align-items: stretch; flex-direction: column; gap: 17px; }
-      .search-wrap { width: 100%; }
-      .tool-grid { grid-template-columns: 1fr; }
-      .tool-card { min-height: 195px; }
-      .how { grid-template-columns: 1fr; }
-      .privacy-banner { align-items: flex-start; padding: 18px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-      .reveal { opacity: 1; transform: none; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Free image compressor and resizer. Images are processed in your browser.">
+<title>Image Compressor | Atiq.dev Tools</title>
+<style>
+:root{color-scheme:dark;--bg:#07111f;--panel:#102238;--line:#2a4056;--cyan:#35d9f3;--mint:#67efc7;--txt:#edf7ff;--muted:#9bb0c7;--red:#ffaaaa}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#173754,var(--bg) 60%);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}a{color:inherit;text-decoration:none}.top{display:flex;justify-content:space-between;gap:12px;padding:16px 5%;background:#07111fee;border-bottom:1px solid var(--line)}.brand{font-weight:900;font-size:1.2rem}.brand span,h1 span{color:var(--cyan)}.back{color:var(--muted)}main{width:min(960px,92%);margin:34px auto 60px}.eyebrow{color:var(--cyan);font-size:.75rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}h1{font-size:clamp(2rem,5vw,3.3rem);margin:10px 0}.lead,.muted,.note{color:var(--muted);line-height:1.65}.panel{margin-top:24px;padding:clamp(14px,3vw,28px);border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#12263cf5,#0a1829f5);box-shadow:0 20px 60px #0003}.drop{display:flex;min-height:190px;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px;text-align:center;border:2px dashed #35d9f388;border-radius:16px;background:#35d9f30a;cursor:pointer}.drop:hover,.drop.drag{background:#35d9f31b;border-color:var(--cyan)}.glyph{font-size:2.1rem}.choose{padding:9px 15px;border-radius:9px;background:var(--cyan);color:#03131f;font-weight:850}.muted{font-size:.85rem}input[type=file]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}.fileline{display:none;align-items:center;gap:12px;margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:12px}.fileline.show{display:flex}.thumb{width:60px;height:60px;object-fit:contain;border-radius:8px;background:#0003}.filetext{flex:1;min-width:0;overflow-wrap:anywhere}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 15px;border:0;border-radius:10px;font-weight:850;cursor:pointer}.primary{background:linear-gradient(100deg,var(--cyan),var(--mint));color:#03131f}.secondary{background:#172b40;color:var(--txt);border:1px solid var(--line)}.btn:disabled{opacity:.45;cursor:not-allowed}.controls,.dims{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:15px}.field,.dim-panel,.stat,.preview{min-width:0;padding:15px;border:1px solid var(--line);border-radius:12px;background:#030c1738}.field label{display:flex;justify-content:space-between;gap:10px;font-weight:800;font-size:.9rem;margin-bottom:12px}.field output{color:var(--cyan)}input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer}select,.dim-input input{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:#091827;color:var(--txt)}.field small{display:block;margin-top:8px}.dim-panel h2{font-size:.95rem;margin:0 0 12px}.dim-main{font-size:1.15rem;font-weight:900;overflow-wrap:anywhere}.dim-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.dim-input label{display:block;color:var(--muted);font-size:.78rem;margin-bottom:6px}.lockline{display:flex;align-items:center;gap:8px;margin-top:12px;color:var(--muted);font-size:.85rem}.lockline input{accent-color:var(--cyan)}.estimate{margin-top:15px;padding:16px;border:1px solid #35d9f344;border-radius:13px}.est-top{display:flex;justify-content:space-between;gap:12px}.est-title{font-size:.85rem;color:var(--muted)}.est-size{font-size:1.7rem;color:var(--mint);font-weight:900}.bar{height:8px;margin-top:12px;overflow:hidden;border-radius:99px;background:#20354a}.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--mint));transition:width .2s}.est-meta,.actions{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin-top:12px}.actions{justify-content:flex-start}.status{min-height:1.5em;margin:12px 0 0;color:var(--muted);line-height:1.5}.status.error{color:var(--red)}.result{display:none;margin-top:22px}.result.show{display:block}.result h2{font-size:1.15rem}.stats,.previews{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.previews{grid-template-columns:1fr 1fr;margin-top:12px}.stat span{display:block;margin-bottom:6px;color:var(--muted);font-size:.8rem}.stat strong{overflow-wrap:anywhere}.preview h3{margin:0 0 10px;font-size:.9rem}.preview img{display:block;width:100%;height:220px;object-fit:contain;background:#0003;border-radius:8px}.preview p{font-size:.82rem;color:var(--muted);overflow-wrap:anywhere}.note{font-size:.82rem;margin-top:20px}.foot{text-align:center;color:var(--muted);font-size:.82rem;margin-top:28px}@media(max-width:620px){main{margin-top:24px}.controls,.dims,.previews,.stats{grid-template-columns:1fr}.top{padding:13px 4%}.fileline{align-items:flex-start}.est-top{flex-direction:column}.preview img{height:190px}}
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container nav">
-      <a class="brand" href="/" aria-label="Atiq home">
-        <span class="brand-mark">⚡</span>
-        <span class="brand-name">Atiq <small>Online Tools</small></span>
-      </a>
-      <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navLinks">☰ <span>Menu</span></button>
-      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
-        <a href="#tools">All tools</a>
-        <a href="#how-it-works">How it works</a>
-        <a href="#privacy">Privacy</a>
-        <a class="nav-cta" href="/">← Main website</a>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="reveal">
-          <span class="eyebrow"><span class="pulse"></span> Simple tools. Better workflow.</span>
-          <h1>Get things done<br>with <span class="gradient-text">online tools.</span></h1>
-          <p class="hero-copy">Handy tools for images, PDFs and everyday developer tasks — designed to be quick, simple and easy to use on any device.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#tools">🧰 Explore tools <span aria-hidden="true">→</span></a>
-            <a class="btn btn-secondary" href="#how-it-works">✨ How it works</a>
-          </div>
-          <div class="stats" aria-label="Tool categories">
-            <div class="stat"><strong>🖼️ Image</strong><span>Resize and convert</span></div>
-            <div class="stat"><strong>📄 PDF</strong><span>Manage documents</span></div>
-            <div class="stat"><strong>💻 Dev</strong><span>Format and encode</span></div>
-          </div>
-        </div>
-        <div class="hero-visual reveal" aria-hidden="true">
-          <div class="orb"></div>
-          <div class="tool-window">
-            <div class="window-head"><span>⚡ Quick workspace</span><span class="dots"><i></i><i></i><i></i></span></div>
-            <div class="preview-tile">🖼️</div>
-            <div class="fake-row"><span>Image optimization</span><span style="color:var(--green)">Ready</span></div>
-            <div class="fake-row"><span class="fake-bar"><span></span></span><span>68%</span></div>
-            <div class="fake-row"><span>Fast · Simple · Convenient</span><span>✨</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="tools">
-      <div class="container">
-        <div class="section-head reveal">
-          <div>
-            <p class="section-kicker">Toolbox</p>
-            <h2>Find the right tool</h2>
-            <p class="section-desc">Search by name or choose a category. Available tools open directly; tools still being built are clearly marked.</p>
-          </div>
-          <label class="search-wrap">
-            <span aria-hidden="true">🔎</span>
-            <input class="search" id="toolSearch" type="search" placeholder="Search tools..." autocomplete="off" aria-label="Search tools">
-          </label>
-        </div>
-        <div class="filters reveal" role="group" aria-label="Filter tools by category">
-          <button class="filter active" type="button" data-filter="all" aria-pressed="true">✨ All tools</button>
-          <button class="filter" type="button" data-filter="image" aria-pressed="false">🖼️ Image</button>
-          <button class="filter" type="button" data-filter="pdf" aria-pressed="false">📄 PDF</button>
-          <button class="filter" type="button" data-filter="developer" aria-pressed="false">💻 Developer</button>
-        </div>
-
-        <div class="category-block" data-category-block="image">
-          <h3 class="category-title reveal"><span class="cat-icon">🖼️</span> Image tools</h3>
-          <div class="tool-grid">
-            <article class="tool-card reveal" data-category="image" data-search="image compressor compress reduce file size optimize photo">
-              <div class="tool-top"><span class="tool-icon">🗜️</span><span class="status ready">Available</span></div>
-              <h4>Image Compressor</h4><p>Reduce image file size and adjust quality and dimensions before downloading.</p>
-              <a class="tool-link" href="/tools/image-compressor/">Open tool <span>→</span></a>
-            </article>
-            <article class="tool-card reveal" data-category="image" data-search="image resizer resize dimensions width height">
-              <div class="tool-top"><span class="tool-icon">📐</span><span class="status">Coming soon</span></div>
-              <h4>Image Resizer</h4><p>Resize photos to the exact width and height you need.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="image" data-search="jpg jpeg png converter convert format">
-              <div class="tool-top"><span class="tool-icon">🔄</span><span class="status">Coming soon</span></div>
-              <h4>JPG → PNG</h4><p>Convert JPG pictures into PNG format with a simple workflow.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="image" data-search="png jpg jpeg converter convert format">
-              <div class="tool-top"><span class="tool-icon">🔁</span><span class="status">Coming soon</span></div>
-              <h4>PNG → JPG</h4><p>Convert PNG images into smaller, widely compatible JPG files.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="image" data-search="image cropper crop trim photo">
-              <div class="tool-top"><span class="tool-icon">✂️</span><span class="status">Coming soon</span></div>
-              <h4>Image Cropper</h4><p>Crop an image to focus on the part that matters.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-          </div>
-        </div>
-
-        <div class="category-block" data-category-block="pdf">
-          <h3 class="category-title reveal"><span class="cat-icon">📄</span> PDF tools</h3>
-          <div class="tool-grid">
-            <article class="tool-card reveal" data-category="pdf" data-search="pdf merger combine join documents">
-              <div class="tool-top"><span class="tool-icon">🧩</span><span class="status">Coming soon</span></div>
-              <h4>PDF Merger</h4><p>Combine multiple PDF files into one organized document.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="pdf" data-search="pdf splitter split extract pages">
-              <div class="tool-top"><span class="tool-icon">📑</span><span class="status">Coming soon</span></div>
-              <h4>PDF Splitter</h4><p>Separate a PDF into smaller files or selected pages.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="pdf" data-search="images to pdf jpg png pictures document">
-              <div class="tool-top"><span class="tool-icon">🖼️</span><span class="status">Coming soon</span></div>
-              <h4>Images → PDF</h4><p>Turn your images into a shareable PDF document.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="pdf" data-search="pdf to images export pages jpg png">
-              <div class="tool-top"><span class="tool-icon">📸</span><span class="status">Coming soon</span></div>
-              <h4>PDF → Images</h4><p>Export PDF pages as image files for easy sharing.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-          </div>
-        </div>
-
-        <div class="category-block" data-category-block="developer">
-          <h3 class="category-title reveal"><span class="cat-icon">💻</span> Developer tools</h3>
-          <div class="tool-grid">
-            <article class="tool-card reveal" data-category="developer" data-search="json formatter pretty print format developer">
-              <div class="tool-top"><span class="tool-icon">{ }</span><span class="status">Coming soon</span></div>
-              <h4>JSON Formatter</h4><p>Make JSON easier to read with clean indentation and layout.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="developer" data-search="json validator validate syntax errors">
-              <div class="tool-top"><span class="tool-icon">✅</span><span class="status">Coming soon</span></div>
-              <h4>JSON Validator</h4><p>Check JSON syntax and find formatting mistakes quickly.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="developer" data-search="base64 encoder decoder encode decode text">
-              <div class="tool-top"><span class="tool-icon">🔐</span><span class="status">Coming soon</span></div>
-              <h4>Base64 Encoder / Decoder</h4><p>Encode text to Base64 or decode it back in seconds.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-          </div>
-        </div>
-        <div class="empty-state" id="emptyState"><strong>🤔 No matching tools</strong>Try another search term or choose a different category.</div>
-      </div>
-    </section>
-
-    <section class="section" id="how-it-works">
-      <div class="container">
-        <div class="section-head reveal">
-          <div><p class="section-kicker">Easy workflow</p><h2>Made to feel simple</h2><p class="section-desc">No complicated steps. Pick a tool and follow the clear controls.</p></div>
-        </div>
-        <div class="how">
-          <article class="how-card reveal"><span class="how-number">STEP 01</span><h3>🧰 Choose a tool</h3><p>Find the tool you need using categories or the search bar.</p></article>
-          <article class="how-card reveal"><span class="how-number">STEP 02</span><h3>⚙️ Add your content</h3><p>Upload a file or enter data, then adjust the available settings.</p></article>
-          <article class="how-card reveal"><span class="how-number">STEP 03</span><h3>📥 Get your result</h3><p>Preview the result and download it when you're ready.</p></article>
-        </div>
-        <div class="privacy-banner reveal" id="privacy">
-          <span class="privacy-icon">🛡️</span>
-          <div><h3>Privacy matters</h3><p>Image Compressor processes images in your browser on your device. Other tools may have different processing methods; check each tool's details before using sensitive files.</p></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container footer-inner">
-      <span>© <span id="year"></span> Atiq. Built to make everyday tasks easier.</span>
-      <div class="footer-links"><a href="/">Main website</a><a href="#tools">Back to tools ↑</a></div>
-    </div>
-  </footer>
-
-  <script>
-    (() => {
-      const menuToggle = document.getElementById('menuToggle');
-      const navLinks = document.getElementById('navLinks');
-      const searchInput = document.getElementById('toolSearch');
-      const filterButtons = [...document.querySelectorAll('.filter')];
-      const cards = [...document.querySelectorAll('.tool-card')];
-      const categoryBlocks = [...document.querySelectorAll('[data-category-block]')];
-      const emptyState = document.getElementById('emptyState');
-      let activeCategory = 'all';
-
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      menuToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('open');
-        menuToggle.setAttribute('aria-expanded', String(isOpen));
-        menuToggle.innerHTML = isOpen ? '✕ <span>Close</span>' : '☰ <span>Menu</span>';
-      });
-
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-          menuToggle.innerHTML = '☰ <span>Menu</span>';
-        });
-      });
-
-      function filterTools() {
-        const term = searchInput.value.trim().toLowerCase();
-        let visibleCount = 0;
-        cards.forEach(card => {
-          const categoryMatch = activeCategory === 'all' || card.dataset.category === activeCategory;
-          const searchable = (card.dataset.search + ' ' + card.innerText).toLowerCase();
-          const searchMatch = !term || searchable.includes(term);
-          const visible = categoryMatch && searchMatch;
-          card.hidden = !visible;
-          if (visible) visibleCount++;
-        });
-        categoryBlocks.forEach(block => {
-          const visibleCards = [...block.querySelectorAll('.tool-card')].some(card => !card.hidden);
-          block.hidden = !visibleCards;
-        });
-        emptyState.style.display = visibleCount ? 'none' : 'block';
-      }
-
-      filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          activeCategory = button.dataset.filter;
-          filterButtons.forEach(item => {
-            const active = item === button;
-            item.classList.toggle('active', active);
-            item.setAttribute('aria-pressed', String(active));
-          });
-          filterTools();
-        });
-      });
-      searchInput.addEventListener('input', filterTools);
-
-      const revealElements = document.querySelectorAll('.reveal');
-      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        const observer = new IntersectionObserver((entries, currentObserver) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('in-view');
-              currentObserver.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: '0px 0px -35px 0px' });
-        revealElements.forEach((element, index) => {
-          element.style.transitionDelay = `${Math.min(index % 4, 3) * 65}ms`;
-          observer.observe(element);
-        });
-      } else {
-        revealElements.forEach(element => element.classList.add('in-view'));
-      }
-    })();
-  </script>
+<header class="top"><a class="brand" href="../">Atiq<span>.</span>dev</a><a class="back" href="../">← Back to Tools</a></header>
+<main>
+<div class="eyebrow">🧰 Free browser tool · 01</div>
+<h1>Image <span>Compressor</span></h1>
+<p class="lead">🖼️ Compress image quality and resize pixel dimensions. Live estimates update when you move sliders. Your image stays on your device.</p>
+<section class="panel">
+<label class="drop" id="drop" for="file" tabindex="0" role="button" aria-label="Choose or drop an image">
+<span class="glyph" aria-hidden="true">📤</span><strong>Drop your image here</strong><span class="muted">or</span><span class="choose">Choose image</span><small class="muted">JPG, PNG, WebP, GIF, BMP and other browser-readable images</small>
+</label>
+<input id="file" type="file" accept="image/*">
+<div class="fileline" id="fileline"><img class="thumb" id="thumb" alt="Uploaded image preview"><div class="filetext"><strong id="filename"></strong><div class="muted" id="filesize"></div><div class="muted" id="filedims"></div></div><button class="btn secondary" id="remove" type="button">✖ Remove</button></div>
+<div class="controls">
+<div class="field"><label for="quality">🎚️ Compression quality <output id="qout">75%</output></label><input id="quality" type="range" min="10" max="100" value="75"><small class="muted">Quality affects JPEG and WebP most; PNG is lossless.</small></div>
+<div class="field"><label for="format">🗂️ Export format</label><select id="format"><option value="original">Same as uploaded (default)</option><option value="image/jpeg">JPEG / JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option><option value="image/avif">AVIF (if supported)</option></select><small class="muted" id="formatnote">Default: preserve the uploaded format when supported by the browser.</small></div>
+</div>
+<div class="field" style="margin-top:14px"><label for="scale">📐 Resize dimensions <output id="scaleout">100%</output></label><input id="scale" type="range" min="1" max="100" step="1" value="100"><small class="muted">Moving this slider changes the actual output width and height.</small></div>
+<div class="dims">
+<div class="dim-panel"><h2>🖼️ Original dimensions</h2><div class="dim-main" id="originalDims">— × — px</div><div class="muted" id="originalDimHint">Upload an image first</div></div>
+<div class="dim-panel"><h2>📏 Output dimensions</h2><div class="dim-row"><div class="dim-input"><label for="outWidth">Width (px)</label><input id="outWidth" type="number" min="1" max="12000" placeholder="Width"></div><div class="dim-input"><label for="outHeight">Height (px)</label><input id="outHeight" type="number" min="1" max="12000" placeholder="Height"></div></div><label class="lockline"><input id="lock" type="checkbox" checked> Keep aspect ratio 🔒</label></div>
+</div>
+<div class="estimate"><div class="est-top"><div><div class="est-title">📦 Estimated export size</div><div class="est-size" id="estSize">—</div></div><div><div class="est-title">📉 Estimated size change</div><div class="dim-main" id="estDelta">—</div></div></div><div class="bar"><div id="barfill"></div></div><div class="est-meta muted"><span id="estDims">Output dimensions: —</span><span id="estState">Choose an image to start</span></div></div>
+<div class="actions"><button class="btn primary" id="compress" type="button" disabled>✨ Compress & prepare download</button><button class="btn secondary" id="reset" type="button">↻ Reset</button></div>
+<p class="status" id="status" role="status" aria-live="polite">Choose an image to get started.</p>
+<section class="result" id="result" aria-live="polite"><h2>✅ Final result</h2><div class="stats"><div class="stat"><span>Uploaded size</span><strong id="rOriginal">—</strong></div><div class="stat"><span>Actual output size</span><strong id="rOutput">—</strong></div><div class="stat"><span>Actual size change</span><strong id="rDelta">—</strong></div></div><div class="previews"><div class="preview"><h3>Original</h3><img id="before" alt="Original image"><p id="beforeInfo"></p></div><div class="preview"><h3>Compressed / resized</h3><img id="after" alt="Compressed and resized image"><p id="afterInfo"></p></div></div><div class="actions"><a class="btn primary" id="download" href="#" download>⬇️ Download image</a></div></section>
+<p class="note">💡 Estimates use your browser's image encoder. GIF animation and metadata may not be preserved. Unsupported export formats will show an error rather than silently downloading a different format.</p>
+</section>
+<div class="foot">© <span id="year"></span> Atiq.dev · 🔐 Private, in-browser processing</div>
+</main>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const fileInput=$('file'),drop=$('drop'),quality=$('quality'),format=$('format'),scale=$('scale'),compressBtn=$('compress');
+let file=null,srcUrl=null,downloadUrl=null,img=null,originalW=0,originalH=0,outW=0,outH=0,estimateTimer=null,runId=0,latestBlob=null,latestType=null;
+const mimeExt={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/avif':'avif'};
+const mimeName={'image/jpeg':'JPEG','image/png':'PNG','image/webp':'WebP','image/avif':'AVIF','image/gif':'GIF','image/bmp':'BMP','image/svg+xml':'SVG'};
+const bytes=n=>!Number.isFinite(n)?'—':n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(2)+' MB';
+const uploadedType=()=>file?.type||'image/png';
+function targetType(){if(format.value!=='original')return format.value;const t=uploadedType();return ['image/jpeg','image/png','image/webp','image/avif'].includes(t)?t:'image/png'}
+const targetName=t=>mimeName[t]||t||'image';
+function showError(msg){$('status').textContent='⚠️ '+msg;$('status').classList.add('error')}
+function status(msg){$('status').classList.remove('error');$('status').textContent=msg}
+function revoke(url){if(url)URL.revokeObjectURL(url)}
+function clearDownload(){revoke(downloadUrl);downloadUrl=null;$('result').classList.remove('show');$('after').removeAttribute('src')}
+function sizeDims(w,h){return w.toLocaleString()+' × '+h.toLocaleString()+' px'}
+function computeDims(pct){outW=Math.max(1,Math.round(originalW*pct/100));outH=Math.max(1,Math.round(originalH*pct/100));$('outWidth').value=outW;$('outHeight').value=outH;$('scaleout').textContent=pct+'%';$('estDims').textContent='Output dimensions: '+sizeDims(outW,outH)}
+function setDims(which){if(!img)return;let w=Math.max(1,Math.min(12000,Number($('outWidth').value)||1)),h=Math.max(1,Math.min(12000,Number($('outHeight').value)||1));if($('lock').checked){if(which==='w')h=Math.max(1,Math.round(w*originalH/originalW));else w=Math.max(1,Math.round(h*originalW/originalH))}outW=w;outH=h;$('outWidth').value=w;$('outHeight').value=h;const pct=Math.max(1,Math.min(100,Math.round(Math.min(w/originalW,h/originalH)*100)));scale.value=pct;$('scaleout').textContent=pct+'%';$('estDims').textContent='Output dimensions: '+sizeDims(outW,outH);scheduleEstimate()}
+function makeCanvas(){const canvas=document.createElement('canvas');canvas.width=outW;canvas.height=outH;const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas is unavailable in this browser.');const t=targetType();if(t==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,outW,outH)}ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(img,0,0,outW,outH);return canvas}
+function encodeEstimate(){const id=++runId;if(!img||!file)return;$('estSize').textContent='Calculating…';$('estState').textContent='Encoding current settings…';let canvas;try{canvas=makeCanvas()}catch(e){showError(e.message);return}const type=targetType(),q=Number(quality.value)/100;try{canvas.toBlob(blob=>{if(id!==runId||!blob)return;if(blob.type!==type){latestBlob=null;$('estSize').textContent='Unsupported';$('estDelta').textContent='—';$('estState').textContent='Browser cannot export '+targetName(type);$('barfill').style.width='0';return}const diff=file.size-blob.size,pct=file.size?diff/file.size*100:0;$('estSize').textContent='~'+bytes(blob.size);$('estDelta').textContent=diff>=0?pct.toFixed(1)+'% smaller':Math.abs(pct).toFixed(1)+'% larger';$('estState').textContent='Live encoded estimate';$('barfill').style.width=Math.max(0,Math.min(100,pct))+'%';$('estDims').textContent='Output dimensions: '+sizeDims(outW,outH)+' · '+targetName(type);latestBlob=blob;latestType=type},type,q)}catch(e){showError('This browser does not support exporting '+targetName(type)+'. Try JPEG, PNG or WebP.')}}
+function scheduleEstimate(){clearTimeout(estimateTimer);runId++;latestBlob=null;latestType=null;clearDownload();$('estSize').textContent='Calculating…';$('estState').textContent='Updating estimate…';estimateTimer=setTimeout(encodeEstimate,140)}
+function load(f){if(!f)return;if(!f.type.startsWith('image/')){showError('Please choose a valid image file.');return}if(f.size>150*1024*1024){showError('Image is over 150 MB. Please choose a smaller file.');return}runId++;clearTimeout(estimateTimer);revoke(srcUrl);clearDownload();file=f;srcUrl=URL.createObjectURL(f);img=null;latestBlob=null;latestType=null;$('fileline').classList.add('show');$('thumb').src=srcUrl;$('filename').textContent=f.name;$('filesize').textContent='Uploaded size: '+bytes(f.size)+' · '+(f.type||'unknown format');$('filedims').textContent='Reading dimensions…';$('before').src=srcUrl;$('beforeInfo').textContent=f.name+' · '+bytes(f.size);$('rOriginal').textContent=bytes(f.size);format.value='original';$('formatnote').textContent='Default: preserve the uploaded format when browser encoding supports it.';$('originalDims').textContent='Reading…';$('originalDimHint').textContent='Loading image';$('estSize').textContent='—';$('estDelta').textContent='—';$('barfill').style.width='0';compressBtn.disabled=true;status('Loading image…');const image=new Image();image.onload=()=>{if(file!==f)return;img=image;originalW=image.naturalWidth;originalH=image.naturalHeight;if(!originalW||!originalH){showError('Could not read image dimensions.');return}$('filedims').textContent='Dimensions: '+sizeDims(originalW,originalH);$('originalDims').textContent=sizeDims(originalW,originalH);$('originalDimHint').textContent='Uploaded file: '+bytes(f.size);scale.value=100;computeDims(100);compressBtn.disabled=false;status('Image ready. Move a slider to update the live size estimate.');scheduleEstimate()};image.onerror=()=>{if(file!==f)return;showError('Browser could not decode this image. Try JPG, PNG or WebP.');$('filedims').textContent='Dimensions unavailable';$('originalDims').textContent='Unavailable'};image.src=srcUrl}
+function finish(blob,type){clearDownload();downloadUrl=URL.createObjectURL(blob);$('after').src=downloadUrl;const diff=file.size-blob.size,pct=file.size?diff/file.size*100:0;$('rOutput').textContent=bytes(blob.size);$('rDelta').textContent=diff>=0?pct.toFixed(1)+'% smaller':Math.abs(pct).toFixed(1)+'% larger';$('afterInfo').textContent=sizeDims(outW,outH)+' · '+targetName(type)+' · '+bytes(blob.size);const stem=file.name.replace(/\.[^.]+$/,'').replace(/[^\w.-]+/g,'-');const a=$('download');a.href=downloadUrl;a.download=stem+'-compressed.'+(mimeExt[type]||'png');$('result').classList.add('show');$('estSize').textContent=bytes(blob.size);$('estDelta').textContent=diff>=0?pct.toFixed(1)+'% smaller':Math.abs(pct).toFixed(1)+'% larger';$('estState').textContent='Final output size confirmed';$('barfill').style.width=Math.max(0,Math.min(100,pct))+'%';status('✅ Done! Your image is ready to download.')}
+fileInput.addEventListener('change',()=>load(fileInput.files&&fileInput.files[0]));
+drop.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fileInput.click()}});
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));
+drop.addEventListener('drop',e=>load(e.dataTransfer.files&&e.dataTransfer.files[0]));
+quality.addEventListener('input',()=>{$('qout').textContent=quality.value+'%';scheduleEstimate()});
+scale.addEventListener('input',()=>{if(!img)return;computeDims(Number(scale.value));scheduleEstimate()});
+$('outWidth').addEventListener('change',()=>setDims('w'));$('outHeight').addEventListener('change',()=>setDims('h'));
+format.addEventListener('change',()=>{if(!file)return;$('formatnote').textContent=format.value==='original'?'Default: preserve the uploaded format when browser encoding supports it.':'Export as '+targetName(format.value)+'.';scheduleEstimate()});
+compressBtn.addEventListener('click',()=>{if(!img||!file)return;if(latestBlob&&latestType===targetType()){finish(latestBlob,latestType);return}compressBtn.disabled=true;status('Preparing image…');let canvas;try{canvas=makeCanvas()}catch(e){compressBtn.disabled=false;showError(e.message);return}const type=targetType();try{canvas.toBlob(blob=>{compressBtn.disabled=false;if(!blob){showError('Image export failed. Try JPEG, PNG or WebP.');return}if(blob.type!==type){showError('This browser cannot export '+targetName(type)+'. Choose JPEG, PNG or WebP.');return}finish(blob,type)},type,Number(quality.value)/100)}catch(e){compressBtn.disabled=false;showError('Export failed in this browser. Choose JPEG, PNG or WebP.')}});
+$('remove').addEventListener('click',reset);$('reset').addEventListener('click',reset);
+function reset(){runId++;clearTimeout(estimateTimer);revoke(srcUrl);srcUrl=null;revoke(downloadUrl);downloadUrl=null;file=null;img=null;latestBlob=null;latestType=null;fileInput.value='';$('fileline').classList.remove('show');$('thumb').removeAttribute('src');$('filename').textContent='';$('filesize').textContent='';$('filedims').textContent='';$('originalDims').textContent='— × — px';$('originalDimHint').textContent='Upload an image first';$('outWidth').value='';$('outHeight').value='';$('qout').textContent=quality.value+'%';scale.value=100;$('scaleout').textContent='100%';format.value='original';$('estSize').textContent='—';$('estDelta').textContent='—';$('estDims').textContent='Output dimensions: —';$('estState').textContent='Choose an image to start';$('barfill').style.width='0';$('result').classList.remove('show');$('before').removeAttribute('src');$('after').removeAttribute('src');compressBtn.disabled=true;status('Choose an image to get started.')}
+$('year').textContent=new Date().getFullYear();
+})();
+</script>
 </body>
 </html>
