@@ -1,154 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Resize and compress images with live dimensions and file-size estimates in your browser.">
-<title>Image Compressor & Resizer | Atiq.dev Tools</title>
+<meta name="description" content="Free image compressor and resizer. Images are processed in your browser.">
+<title>Image Compressor | Atiq.dev Tools</title>
 <style>
-:root{color-scheme:dark;--bg:#07111f;--panel:#0e1d30;--panel2:#132940;--line:rgba(150,190,220,.2);--cyan:#35d9f3;--mint:#67efc7;--txt:#edf7ff;--muted:#9bb0c7;--danger:#ffb2b2}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -15%,#173754 0%,var(--bg) 62%);color:var(--txt);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-a{color:inherit;text-decoration:none}button,input,select{font:inherit}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 5%;border-bottom:1px solid var(--line);background:#07111fe8;position:sticky;top:0;z-index:4;backdrop-filter:blur(12px)}.brand{font-weight:900;font-size:1.2rem}.brand span,h1 span{color:var(--cyan)}.back{color:var(--muted);font-size:.9rem}
-main{width:min(1000px,92%);margin:38px auto 65px}.eyebrow{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);font-weight:850}h1{font-size:clamp(2rem,5vw,3.4rem);line-height:1.08;margin:10px 0}.lead{color:var(--muted);line-height:1.7;max-width:740px}.panel{margin-top:26px;padding:clamp(15px,3.6vw,29px);border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#12263cf5,#0a1829f5);box-shadow:0 22px 65px #0003}
-.drop{min-height:205px;padding:25px 18px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px;text-align:center;border:2px dashed #35d9f380;border-radius:17px;background:#35d9f30a;cursor:pointer;transition:.18s}.drop:hover,.drop:focus-visible,.drop.drag{border-color:var(--cyan);background:#35d9f31c;outline:none}.glyph{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;font-size:1.7rem;background:#35d9f31b;color:var(--cyan)}.drop strong{font-size:1.08rem}.choose{padding:9px 15px;background:var(--cyan);color:#03131f;font-weight:850;border-radius:9px}.muted{color:var(--muted);font-size:.84rem;line-height:1.55}input[type=file]{position:absolute;left:-9999px;width:1px;height:1px}
-.fileline{display:none;align-items:center;gap:13px;margin-top:14px;padding:13px;border:1px solid var(--line);border-radius:13px;background:#06101d99}.fileline.show{display:flex}.thumb{width:64px;height:64px;object-fit:contain;background:#0003;border-radius:9px;flex-shrink:0}.filetext{min-width:0;flex:1;overflow-wrap:anywhere}.filename{font-weight:800}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:850;cursor:pointer;display:inline-flex;justify-content:center;align-items:center;gap:7px;transition:.15s}.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.primary{background:linear-gradient(100deg,var(--cyan),var(--mint));color:#03131f}.secondary{background:var(--panel2);color:var(--txt);border:1px solid var(--line)}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:17px}.field{min-width:0;padding:16px;border:1px solid var(--line);border-radius:13px;background:#030c1738}.field label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.9rem;font-weight:800;margin-bottom:12px}.field output{color:var(--cyan);font-variant-numeric:tabular-nums}input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer}select{width:100%;background:#091827;color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:11px}.field small{display:block;margin-top:8px}
-.dimension-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.dim-panel{border:1px solid var(--line);border-radius:13px;padding:16px;background:#030c1738}.dim-panel h2{font-size:.92rem;margin:0 0 13px}.dim-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.dim-input label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px}.dim-input input{width:100%;padding:10px;background:#091827;border:1px solid var(--line);border-radius:8px;color:var(--txt);min-width:0}.dim-main{font-weight:900;font-size:1.15rem;font-variant-numeric:tabular-nums}.lockline{display:flex;align-items:center;gap:8px;margin-top:12px;color:var(--muted);font-size:.83rem}.lockline input{accent-color:var(--cyan)}
-.estimate{margin-top:17px;padding:17px;border:1px solid #35d9f344;border-radius:14px;background:linear-gradient(100deg,#35d9f30c,#67efc70a)}.est-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.est-title{color:var(--muted);font-size:.85rem}.est-size{font-size:clamp(1.35rem,4vw,1.9rem);font-weight:900;color:var(--mint);font-variant-numeric:tabular-nums}.bar{height:8px;border-radius:99px;overflow:hidden;background:#20354a;margin-top:13px}.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--mint));transition:width .1s}.est-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-top:9px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}.status{min-height:1.4em;color:var(--muted);font-size:.9rem;line-height:1.5;margin:12px 0 0}.status.error{color:var(--danger)}
-.result{display:none;margin-top:23px}.result.show{display:block}.result h2{font-size:1.15rem;margin:0 0 12px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat{min-width:0;padding:13px;border:1px solid var(--line);border-radius:12px;background:#030c1738}.stat span{display:block;color:var(--muted);font-size:.78rem;margin-bottom:7px}.stat strong{font-size:1rem;overflow-wrap:anywhere}.previews{display:grid;grid-template-columns:1fr 1fr;gap:13px}.preview{min-width:0;padding:12px;border:1px solid var(--line);border-radius:13px}.preview h3{font-size:.9rem;margin:0 0 10px}.preview img{width:100%;height:230px;display:block;object-fit:contain;background:#0003;border-radius:8px}.preview p{font-size:.81rem;color:var(--muted);line-height:1.55;overflow-wrap:anywhere}.note{font-size:.82rem;line-height:1.65;color:var(--muted);margin-top:19px}.foot{text-align:center;color:var(--muted);font-size:.82rem;margin-top:32px}
-@media(max-width:640px){main{margin-top:28px}.controls,.dimension-grid,.previews{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.top{padding:14px 4%}.drop{min-height:185px}.fileline{align-items:flex-start}.fileline .btn{padding:9px}.preview img{height:200px}.est-top{flex-direction:column}}
+:root{color-scheme:dark;--bg:#07111f;--panel:#102238;--line:#2a4056;--cyan:#35d9f3;--mint:#67efc7;--txt:#edf7ff;--muted:#9bb0c7;--red:#ffaaaa}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#173754,var(--bg) 60%);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}a{color:inherit;text-decoration:none}.top{display:flex;justify-content:space-between;gap:12px;padding:16px 5%;background:#07111fee;border-bottom:1px solid var(--line)}.brand{font-weight:900;font-size:1.2rem}.brand span,h1 span{color:var(--cyan)}.back{color:var(--muted)}main{width:min(960px,92%);margin:34px auto 60px}.eyebrow{color:var(--cyan);font-size:.75rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}h1{font-size:clamp(2rem,5vw,3.3rem);margin:10px 0}.lead,.muted,.note{color:var(--muted);line-height:1.65}.panel{margin-top:24px;padding:clamp(14px,3vw,28px);border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#12263cf5,#0a1829f5);box-shadow:0 20px 60px #0003}.drop{display:flex;min-height:190px;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px;text-align:center;border:2px dashed #35d9f388;border-radius:16px;background:#35d9f30a;cursor:pointer}.drop:hover,.drop.drag{background:#35d9f31b;border-color:var(--cyan)}.glyph{font-size:2.1rem}.choose{padding:9px 15px;border-radius:9px;background:var(--cyan);color:#03131f;font-weight:850}.muted{font-size:.85rem}input[type=file]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}.fileline{display:none;align-items:center;gap:12px;margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:12px}.fileline.show{display:flex}.thumb{width:60px;height:60px;object-fit:contain;border-radius:8px;background:#0003}.filetext{flex:1;min-width:0;overflow-wrap:anywhere}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 15px;border:0;border-radius:10px;font-weight:850;cursor:pointer}.primary{background:linear-gradient(100deg,var(--cyan),var(--mint));color:#03131f}.secondary{background:#172b40;color:var(--txt);border:1px solid var(--line)}.btn:disabled{opacity:.45;cursor:not-allowed}.controls,.dims{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:15px}.field,.dim-panel,.stat,.preview{min-width:0;padding:15px;border:1px solid var(--line);border-radius:12px;background:#030c1738}.field label{display:flex;justify-content:space-between;gap:10px;font-weight:800;font-size:.9rem;margin-bottom:12px}.field output{color:var(--cyan)}input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer}select,.dim-input input{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:#091827;color:var(--txt)}.field small{display:block;margin-top:8px}.dim-panel h2{font-size:.95rem;margin:0 0 12px}.dim-main{font-size:1.15rem;font-weight:900;overflow-wrap:anywhere}.dim-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.dim-input label{display:block;color:var(--muted);font-size:.78rem;margin-bottom:6px}.lockline{display:flex;align-items:center;gap:8px;margin-top:12px;color:var(--muted);font-size:.85rem}.lockline input{accent-color:var(--cyan)}.estimate{margin-top:15px;padding:16px;border:1px solid #35d9f344;border-radius:13px}.est-top{display:flex;justify-content:space-between;gap:12px}.est-title{font-size:.85rem;color:var(--muted)}.est-size{font-size:1.7rem;color:var(--mint);font-weight:900}.bar{height:8px;margin-top:12px;overflow:hidden;border-radius:99px;background:#20354a}.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--mint));transition:width .2s}.est-meta,.actions{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin-top:12px}.actions{justify-content:flex-start}.status{min-height:1.5em;margin:12px 0 0;color:var(--muted);line-height:1.5}.status.error{color:var(--red)}.result{display:none;margin-top:22px}.result.show{display:block}.result h2{font-size:1.15rem}.stats,.previews{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.previews{grid-template-columns:1fr 1fr;margin-top:12px}.stat span{display:block;margin-bottom:6px;color:var(--muted);font-size:.8rem}.stat strong{overflow-wrap:anywhere}.preview h3{margin:0 0 10px;font-size:.9rem}.preview img{display:block;width:100%;height:220px;object-fit:contain;background:#0003;border-radius:8px}.preview p{font-size:.82rem;color:var(--muted);overflow-wrap:anywhere}.note{font-size:.82rem;margin-top:20px}.foot{text-align:center;color:var(--muted);font-size:.82rem;margin-top:28px}@media(max-width:620px){main{margin-top:24px}.controls,.dims,.previews,.stats{grid-template-columns:1fr}.top{padding:13px 4%}.fileline{align-items:flex-start}.est-top{flex-direction:column}.preview img{height:190px}}
 </style>
 </head>
 <body>
-<header class="top"><a class="brand" href="../">Atiq<span>.</span>dev</a><a class="back" href="../">鈫� Back to Portfolio</a></header>
+<header class="top"><a class="brand" href="../">Atiq<span>.</span>dev</a><a class="back" href="../">← Back to Tools</a></header>
 <main>
-<div class="eyebrow">Free browser tool 路 01</div>
+<div class="eyebrow">🧰 Free browser tool · 01</div>
 <h1>Image <span>Compressor</span></h1>
-<p class="lead">Resize dimensions and compress image quality together. Change the sliders to see updated pixel dimensions and a real browser-encoded size estimate. Your images stay on your device.</p>
+<p class="lead">🖼️ Compress image quality and resize pixel dimensions. Live estimates update when you move sliders. Your image stays on your device.</p>
 <section class="panel">
-<label class="drop" id="drop" for="file" tabindex="0" role="button" aria-label="Choose an image or drag and drop">
- <span class="glyph" aria-hidden="true">馃摛</span><strong>Drop your image here</strong><span class="muted">or</span><span class="choose">Choose image</span><small class="muted">JPG, PNG, WebP, GIF, BMP, SVG and other browser-readable images</small>
+<label class="drop" id="drop" for="file" tabindex="0" role="button" aria-label="Choose or drop an image">
+<span class="glyph" aria-hidden="true">📤</span><strong>Drop your image here</strong><span class="muted">or</span><span class="choose">Choose image</span><small class="muted">JPG, PNG, WebP, GIF, BMP and other browser-readable images</small>
 </label>
 <input id="file" type="file" accept="image/*">
-<div class="fileline" id="fileline"><img class="thumb" id="thumb" alt="Uploaded image thumbnail"><div class="filetext"><div class="filename" id="filename"></div><div class="muted" id="filesize"></div><div class="muted" id="filedims"></div></div><button class="btn secondary" id="remove" type="button">Remove</button></div>
-
+<div class="fileline" id="fileline"><img class="thumb" id="thumb" alt="Uploaded image preview"><div class="filetext"><strong id="filename"></strong><div class="muted" id="filesize"></div><div class="muted" id="filedims"></div></div><button class="btn secondary" id="remove" type="button">✖ Remove</button></div>
 <div class="controls">
- <div class="field"><label for="quality">Compression quality <output id="qout">75%</output></label><input id="quality" type="range" min="10" max="100" value="75"><small class="muted">Quality controls lossy formats such as JPEG and WebP.</small></div>
- <div class="field"><label for="format">Export format</label><select id="format"><option value="original">Same as uploaded (default)</option><option value="image/jpeg">JPEG / JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option><option value="image/avif">AVIF (browser support needed)</option></select><small class="muted" id="formatnote">Download format follows the uploaded image.</small></div>
+<div class="field"><label for="quality">🎚️ Compression quality <output id="qout">75%</output></label><input id="quality" type="range" min="10" max="100" value="75"><small class="muted">Quality affects JPEG and WebP most; PNG is lossless.</small></div>
+<div class="field"><label for="format">🗂️ Export format</label><select id="format"><option value="original">Same as uploaded (default)</option><option value="image/jpeg">JPEG / JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option><option value="image/avif">AVIF (if supported)</option></select><small class="muted" id="formatnote">Default: preserve the uploaded format when supported by the browser.</small></div>
 </div>
-<div class="field" style="margin-top:14px">
- <label for="scale">Resize dimensions <output id="scaleout">100%</output></label>
- <input id="scale" type="range" min="10" max="100" step="1" value="100">
- <small class="muted">This slider changes the actual output pixel width and height, not just the preview.</small>
+<div class="field" style="margin-top:14px"><label for="scale">📐 Resize dimensions <output id="scaleout">100%</output></label><input id="scale" type="range" min="1" max="100" step="1" value="100"><small class="muted">Moving this slider changes the actual output width and height.</small></div>
+<div class="dims">
+<div class="dim-panel"><h2>🖼️ Original dimensions</h2><div class="dim-main" id="originalDims">— × — px</div><div class="muted" id="originalDimHint">Upload an image first</div></div>
+<div class="dim-panel"><h2>📏 Output dimensions</h2><div class="dim-row"><div class="dim-input"><label for="outWidth">Width (px)</label><input id="outWidth" type="number" min="1" max="12000" placeholder="Width"></div><div class="dim-input"><label for="outHeight">Height (px)</label><input id="outHeight" type="number" min="1" max="12000" placeholder="Height"></div></div><label class="lockline"><input id="lock" type="checkbox" checked> Keep aspect ratio 🔒</label></div>
 </div>
-<div class="dimension-grid">
- <div class="dim-panel"><h2>Original dimensions</h2><div class="dim-main" id="originalDims">鈥� 脳 鈥� px</div><div class="muted" id="originalDimHint">Upload an image first</div></div>
- <div class="dim-panel"><h2>Output dimensions</h2><div class="dim-row"><div class="dim-input"><label for="outWidth">Width (px)</label><input id="outWidth" type="number" min="1" max="12000" placeholder="Width"></div><div class="dim-input"><label for="outHeight">Height (px)</label><input id="outHeight" type="number" min="1" max="12000" placeholder="Height"></div></div><label class="lockline"><input id="lock" type="checkbox" checked> Keep aspect ratio</label><div class="muted" style="margin-top:8px">Edit width or height directly, or use the resize slider.</div></div>
-</div>
-<div class="estimate">
- <div class="est-top"><div><div class="est-title">Estimated export size</div><div class="est-size" id="estSize">鈥�</div></div><div style="text-align:right"><div class="est-title">Estimated size change</div><div class="dim-main" id="estDelta">鈥�</div></div></div>
- <div class="bar"><div id="barfill"></div></div>
- <div class="est-meta muted"><span id="estDims">Output dimensions: 鈥�</span><span id="estState">Select an image to start</span></div>
-</div>
-<div class="actions"><button class="btn primary" id="compress" disabled>Compress & prepare download</button><button class="btn secondary" id="reset" type="button">Reset</button></div>
+<div class="estimate"><div class="est-top"><div><div class="est-title">📦 Estimated export size</div><div class="est-size" id="estSize">—</div></div><div><div class="est-title">📉 Estimated size change</div><div class="dim-main" id="estDelta">—</div></div></div><div class="bar"><div id="barfill"></div></div><div class="est-meta muted"><span id="estDims">Output dimensions: —</span><span id="estState">Choose an image to start</span></div></div>
+<div class="actions"><button class="btn primary" id="compress" type="button" disabled>✨ Compress & prepare download</button><button class="btn secondary" id="reset" type="button">↻ Reset</button></div>
 <p class="status" id="status" role="status" aria-live="polite">Choose an image to get started.</p>
-<section class="result" id="result" aria-live="polite">
- <h2>Final result</h2>
- <div class="stats"><div class="stat"><span>Uploaded size</span><strong id="rOriginal">鈥�</strong></div><div class="stat"><span>Actual output size</span><strong id="rOutput">鈥�</strong></div><div class="stat"><span>Actual size change</span><strong id="rDelta">鈥�</strong></div></div>
- <div class="previews"><div class="preview"><h3>Original</h3><img id="before" alt="Original image"><p id="beforeInfo"></p></div><div class="preview"><h3>Compressed / resized</h3><img id="after" alt="Compressed resized image"><p id="afterInfo"></p></div></div>
- <div class="actions"><a class="btn primary" id="download">Download image</a></div>
+<section class="result" id="result" aria-live="polite"><h2>✅ Final result</h2><div class="stats"><div class="stat"><span>Uploaded size</span><strong id="rOriginal">—</strong></div><div class="stat"><span>Actual output size</span><strong id="rOutput">—</strong></div><div class="stat"><span>Actual size change</span><strong id="rDelta">—</strong></div></div><div class="previews"><div class="preview"><h3>Original</h3><img id="before" alt="Original image"><p id="beforeInfo"></p></div><div class="preview"><h3>Compressed / resized</h3><img id="after" alt="Compressed and resized image"><p id="afterInfo"></p></div></div><div class="actions"><a class="btn primary" id="download" href="#" download>⬇️ Download image</a></div></section>
+<p class="note">💡 Estimates use your browser's image encoder. GIF animation and metadata may not be preserved. Unsupported export formats will show an error rather than silently downloading a different format.</p>
 </section>
-<p class="note">Important: the estimated size is generated by the browser's image encoder at your current dimensions, format and quality. It is much closer than a formula-only estimate, but the downloaded file's final byte size is confirmed after export. GIF animation, metadata, and unusual formats may not be preserved when converting.</p>
-</section>
-<div class="foot">漏 <span id="year"></span> Atiq.dev 路 Private, in-browser processing</div>
+<div class="foot">© <span id="year"></span> Atiq.dev · 🔐 Private, in-browser processing</div>
 </main>
 <script>
 (()=>{
+'use strict';
 const $=id=>document.getElementById(id);
 const fileInput=$('file'),drop=$('drop'),quality=$('quality'),format=$('format'),scale=$('scale'),compressBtn=$('compress');
-let file=null,srcUrl=null,downloadUrl=null,img=null,originalW=0,originalH=0,outW=0,outH=0,estimateTimer=null,runId=0,manualDimension=false;
+let file=null,srcUrl=null,downloadUrl=null,img=null,originalW=0,originalH=0,outW=0,outH=0,estimateTimer=null,runId=0,latestBlob=null,latestType=null;
 const mimeExt={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/avif':'avif'};
-const mimeName={'image/jpeg':'JPEG','image/png':'PNG','image/webp':'WebP','image/avif':'AVIF'};
-const bytes=n=>!Number.isFinite(n)?'鈥�':n<1024?`${n} B`:n<1048576?`${(n/1024).toFixed(1)} KB`:`${(n/1048576).toFixed(2)} MB`;
+const mimeName={'image/jpeg':'JPEG','image/png':'PNG','image/webp':'WebP','image/avif':'AVIF','image/gif':'GIF','image/bmp':'BMP','image/svg+xml':'SVG'};
+const bytes=n=>!Number.isFinite(n)?'—':n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(2)+' MB';
 const uploadedType=()=>file?.type||'image/png';
-const targetType=()=>format.value==='original'?uploadedType():format.value;
-const targetName=t=>mimeName[t]||t;
-function showError(msg){$('status').textContent=msg;$('status').classList.add('error')}
+function targetType(){if(format.value!=='original')return format.value;const t=uploadedType();return ['image/jpeg','image/png','image/webp','image/avif'].includes(t)?t:'image/png'}
+const targetName=t=>mimeName[t]||t||'image';
+function showError(msg){$('status').textContent='⚠️ '+msg;$('status').classList.add('error')}
 function status(msg){$('status').classList.remove('error');$('status').textContent=msg}
 function revoke(url){if(url)URL.revokeObjectURL(url)}
 function clearDownload(){revoke(downloadUrl);downloadUrl=null;$('result').classList.remove('show');$('after').removeAttribute('src')}
-function sizeDims(w,h){return `${w.toLocaleString()} 脳 ${h.toLocaleString()} px`}
-function computeDims(scalePct){outW=Math.max(1,Math.round(originalW*scalePct/100));outH=Math.max(1,Math.round(originalH*scalePct/100));$('outWidth').value=outW;$('outHeight').value=outH;$('scaleout').textContent=`${scalePct}%`;$('estDims').textContent=`Output dimensions: ${sizeDims(outW,outH)}`}
-function setDimsFromInput(which){
- if(!img)return;let w=Math.max(1,Math.min(12000,Number($('outWidth').value)||1)),h=Math.max(1,Math.min(12000,Number($('outHeight').value)||1));
- if($('lock').checked){if(which==='w')h=Math.max(1,Math.round(w*originalH/originalW));else w=Math.max(1,Math.round(h*originalW/originalH));}
- outW=w;outH=h;$('outWidth').value=w;$('outHeight').value=h;
- const pct=Math.max(10,Math.min(100,Math.round(Math.min(w/originalW,h/originalH)*100)));scale.value=pct;$('scaleout').textContent=`${pct}%`;$('estDims').textContent=`Output dimensions: ${sizeDims(outW,outH)}`;scheduleEstimate();
-}
-function makeCanvas(){
- const canvas=document.createElement('canvas');canvas.width=outW;canvas.height=outH;
- const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas is unavailable in this browser.');
- const t=targetType();if(t==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,outW,outH);}
- ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(img,0,0,outW,outH);return canvas;
-}
-function encodeEstimate(){
- const id=++runId;if(!img||!file)return;
- $('estSize').textContent='Calculating鈥�';$('estState').textContent='Encoding current settings鈥�';
- let canvas;try{canvas=makeCanvas()}catch(e){showError(e.message);return}
- const type=targetType(),q=Number(quality.value)/100;
- canvas.toBlob(blob=>{
-  if(id!==runId||!blob)return;
-  if(blob.type!==type){$('estSize').textContent='Unsupported';$('estDelta').textContent='鈥�';$('estState').textContent=`Browser cannot export ${targetName(type)}`;$('barfill').style.width='0';return;}
-  const diff=file.size-blob.size,pct=file.size?diff/file.size*100:0;
-  $('estSize').textContent=`~${bytes(blob.size)}`;$('estDelta').textContent=diff>=0?`${pct.toFixed(1)}% smaller`:`${Math.abs(pct).toFixed(1)}% larger`;
-  $('estState').textContent='Live encoded estimate';$('barfill').style.width=`${Math.max(0,Math.min(100,pct))}%`;
-  $('estDims').textContent=`Output dimensions: ${sizeDims(outW,outH)} 路 ${targetName(type)}`;
-  // Hold the latest encoded blob for one-click download, so output matches the estimate.
-  latestBlob=blob;latestType=type;
- },type,q);
-}
-let latestBlob=null,latestType=null;
-function scheduleEstimate(){clearTimeout(estimateTimer);latestBlob=null;latestType=null;clearDownload();$('estSize').textContent='Calculating鈥�';$('estState').textContent='Updating estimate鈥�';estimateTimer=setTimeout(encodeEstimate,100)}
-function load(f){
- if(!f)return;if(!f.type.startsWith('image/')){showError('Please select an image file.');return}
- if(f.size>150*1024*1024){showError('This image is over 150 MB. Please choose a smaller file.');return}
- runId++;clearTimeout(estimateTimer);revoke(srcUrl);clearDownload();file=f;srcUrl=URL.createObjectURL(f);img=null;latestBlob=null;
- $('fileline').classList.add('show');$('thumb').src=srcUrl;$('filename').textContent=f.name;$('filesize').textContent=`Uploaded size: ${bytes(f.size)} 路 ${f.type||'unknown format'}`;$('filedims').textContent='Reading dimensions鈥�';
- $('before').src=srcUrl;$('beforeInfo').textContent=`${f.name} 路 ${bytes(f.size)}`;$('rOriginal').textContent=bytes(f.size);
- format.value='original';$('formatnote').textContent=`Default output: same as uploaded (${targetName(uploadedType())}).`;
- $('originalDims').textContent='Reading鈥�';$('originalDimHint').textContent='Loading image';$('estSize').textContent='鈥�';$('estDelta').textContent='鈥�';$('barfill').style.width='0';compressBtn.disabled=true;status('Loading image鈥�');
- const image=new Image();
- image.onload=()=>{if(file!==f)return;img=image;originalW=image.naturalWidth;originalH=image.naturalHeight;
-  $('filedims').textContent=`Dimensions: ${sizeDims(originalW,originalH)}`;$('originalDims').textContent=sizeDims(originalW,originalH);$('originalDimHint').textContent=`Uploaded file: ${bytes(f.size)}`;
-  scale.value=100;computeDims(100);compressBtn.disabled=false;status('Image ready. Change quality or dimensions to update the estimated size.');scheduleEstimate();
- };
- image.onerror=()=>{if(file!==f)return;showError('This browser could not decode this image. Try JPG, PNG or WebP.');$('filedims').textContent='Dimensions unavailable';$('originalDims').textContent='Unavailable';};
- image.src=srcUrl;
-}
-fileInput.addEventListener('change',()=>load(fileInput.files[0]));
+function sizeDims(w,h){return w.toLocaleString()+' × '+h.toLocaleString()+' px'}
+function computeDims(pct){outW=Math.max(1,Math.round(originalW*pct/100));outH=Math.max(1,Math.round(originalH*pct/100));$('outWidth').value=outW;$('outHeight').value=outH;$('scaleout').textContent=pct+'%';$('estDims').textContent='Output dimensions: '+sizeDims(outW,outH)}
+function setDims(which){if(!img)return;let w=Math.max(1,Math.min(12000,Number($('outWidth').value)||1)),h=Math.max(1,Math.min(12000,Number($('outHeight').value)||1));if($('lock').checked){if(which==='w')h=Math.max(1,Math.round(w*originalH/originalW));else w=Math.max(1,Math.round(h*originalW/originalH))}outW=w;outH=h;$('outWidth').value=w;$('outHeight').value=h;const pct=Math.max(1,Math.min(100,Math.round(Math.min(w/originalW,h/originalH)*100)));scale.value=pct;$('scaleout').textContent=pct+'%';$('estDims').textContent='Output dimensions: '+sizeDims(outW,outH);scheduleEstimate()}
+function makeCanvas(){const canvas=document.createElement('canvas');canvas.width=outW;canvas.height=outH;const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas is unavailable in this browser.');const t=targetType();if(t==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,outW,outH)}ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(img,0,0,outW,outH);return canvas}
+function encodeEstimate(){const id=++runId;if(!img||!file)return;$('estSize').textContent='Calculating…';$('estState').textContent='Encoding current settings…';let canvas;try{canvas=makeCanvas()}catch(e){showError(e.message);return}const type=targetType(),q=Number(quality.value)/100;try{canvas.toBlob(blob=>{if(id!==runId||!blob)return;if(blob.type!==type){latestBlob=null;$('estSize').textContent='Unsupported';$('estDelta').textContent='—';$('estState').textContent='Browser cannot export '+targetName(type);$('barfill').style.width='0';return}const diff=file.size-blob.size,pct=file.size?diff/file.size*100:0;$('estSize').textContent='~'+bytes(blob.size);$('estDelta').textContent=diff>=0?pct.toFixed(1)+'% smaller':Math.abs(pct).toFixed(1)+'% larger';$('estState').textContent='Live encoded estimate';$('barfill').style.width=Math.max(0,Math.min(100,pct))+'%';$('estDims').textContent='Output dimensions: '+sizeDims(outW,outH)+' · '+targetName(type);latestBlob=blob;latestType=type},type,q)}catch(e){showError('This browser does not support exporting '+targetName(type)+'. Try JPEG, PNG or WebP.')}}
+function scheduleEstimate(){clearTimeout(estimateTimer);runId++;latestBlob=null;latestType=null;clearDownload();$('estSize').textContent='Calculating…';$('estState').textContent='Updating estimate…';estimateTimer=setTimeout(encodeEstimate,140)}
+function load(f){if(!f)return;if(!f.type.startsWith('image/')){showError('Please choose a valid image file.');return}if(f.size>150*1024*1024){showError('Image is over 150 MB. Please choose a smaller file.');return}runId++;clearTimeout(estimateTimer);revoke(srcUrl);clearDownload();file=f;srcUrl=URL.createObjectURL(f);img=null;latestBlob=null;latestType=null;$('fileline').classList.add('show');$('thumb').src=srcUrl;$('filename').textContent=f.name;$('filesize').textContent='Uploaded size: '+bytes(f.size)+' · '+(f.type||'unknown format');$('filedims').textContent='Reading dimensions…';$('before').src=srcUrl;$('beforeInfo').textContent=f.name+' · '+bytes(f.size);$('rOriginal').textContent=bytes(f.size);format.value='original';$('formatnote').textContent='Default: preserve the uploaded format when browser encoding supports it.';$('originalDims').textContent='Reading…';$('originalDimHint').textContent='Loading image';$('estSize').textContent='—';$('estDelta').textContent='—';$('barfill').style.width='0';compressBtn.disabled=true;status('Loading image…');const image=new Image();image.onload=()=>{if(file!==f)return;img=image;originalW=image.naturalWidth;originalH=image.naturalHeight;if(!originalW||!originalH){showError('Could not read image dimensions.');return}$('filedims').textContent='Dimensions: '+sizeDims(originalW,originalH);$('originalDims').textContent=sizeDims(originalW,originalH);$('originalDimHint').textContent='Uploaded file: '+bytes(f.size);scale.value=100;computeDims(100);compressBtn.disabled=false;status('Image ready. Move a slider to update the live size estimate.');scheduleEstimate()};image.onerror=()=>{if(file!==f)return;showError('Browser could not decode this image. Try JPG, PNG or WebP.');$('filedims').textContent='Dimensions unavailable';$('originalDims').textContent='Unavailable'};image.src=srcUrl}
+function finish(blob,type){clearDownload();downloadUrl=URL.createObjectURL(blob);$('after').src=downloadUrl;const diff=file.size-blob.size,pct=file.size?diff/file.size*100:0;$('rOutput').textContent=bytes(blob.size);$('rDelta').textContent=diff>=0?pct.toFixed(1)+'% smaller':Math.abs(pct).toFixed(1)+'% larger';$('afterInfo').textContent=sizeDims(outW,outH)+' · '+targetName(type)+' · '+bytes(blob.size);const stem=file.name.replace(/\.[^.]+$/,'').replace(/[^\w.-]+/g,'-');const a=$('download');a.href=downloadUrl;a.download=stem+'-compressed.'+(mimeExt[type]||'png');$('result').classList.add('show');$('estSize').textContent=bytes(blob.size);$('estDelta').textContent=diff>=0?pct.toFixed(1)+'% smaller':Math.abs(pct).toFixed(1)+'% larger';$('estState').textContent='Final output size confirmed';$('barfill').style.width=Math.max(0,Math.min(100,pct))+'%';status('✅ Done! Your image is ready to download.')}
+fileInput.addEventListener('change',()=>load(fileInput.files&&fileInput.files[0]));
 drop.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fileInput.click()}});
 ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));
 ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));
-drop.addEventListener('drop',e=>load(e.dataTransfer.files[0]));
-quality.addEventListener('input',()=>{$('qout').textContent=`${quality.value}%`;scheduleEstimate()});
+drop.addEventListener('drop',e=>load(e.dataTransfer.files&&e.dataTransfer.files[0]));
+quality.addEventListener('input',()=>{$('qout').textContent=quality.value+'%';scheduleEstimate()});
 scale.addEventListener('input',()=>{if(!img)return;computeDims(Number(scale.value));scheduleEstimate()});
-$('outWidth').addEventListener('change',()=>setDimsFromInput('w'));
-$('outHeight').addEventListener('change',()=>setDimsFromInput('h'));
-format.addEventListener('change',()=>{if(!file)return;$('formatnote').textContent=format.value==='original'?`Default output: same as uploaded (${targetName(uploadedType())}).`:`Export as ${targetName(format.value)}.`;scheduleEstimate()});
-compressBtn.addEventListener('click',()=>{
- if(!img||!file)return;
- // The exact blob generated for the current controls is downloaded when available.
- if(latestBlob&&latestType===targetType()){
-  finish(latestBlob,latestType);return;
- }
- compressBtn.disabled=true;status('Encoding final image鈥�');
- let canvas;try{canvas=makeCanvas()}catch(e){compressBtn.disabled=false;showError(e.message);return}
- const type=targetType();canvas.toBlob(blob=>{compressBtn.disabled=false;if(!blob){showError('Image export failed. Try another format.');return}if(blob.type!==type){showError(`This browser cannot export ${targetName(type)}. Try JPEG, PNG or WebP.`);return}finish(blob,type)},type,Number(quality.value)/100);
-});
-function finish(blob,type){
- clearDownload();downloadUrl=URL.createObjectURL(blob);$('after').src=downloadUrl;
- const diff=file.size-blob.size,pct=file.size?diff/file.size*100:0;
- $('rOutput').textContent=bytes(blob.size);$('rDelta').textContent=diff>=0?`${pct.toFixed(1)}% smaller`:`${Math.abs(pct).toFixed(1)}% larger`;
- $('afterInfo').textContent=`${sizeDims(outW,outH)} 路 ${targetName(type)} 路 ${bytes(blob.size)}`;
- const a=$('download');a.href=downloadUrl;const stem=file.name.replace(/\.[^.]+$/,'').replace(/[^\w.-]+/g,'-');a.download=`${stem}-resized-compressed.${mimeExt[type]||'img'}`;
- $('result').classList.add('show');$('estSize').textContent=bytes(blob.size);$('estDelta').textContent=diff>=0?`${pct.toFixed(1)}% smaller`:`${Math.abs(pct).toFixed(1)}% larger`;$('estState').textContent='Final output size confirmed';$('barfill').style.width=`${Math.max(0,Math.min(100,pct))}%`;status('Done 鈥� the downloadable file uses the ou
+$('outWidth').addEventListener('change',()=>setDims('w'));$('outHeight').addEventListener('change',()=>setDims('h'));
+format.addEventListener('change',()=>{if(!file)return;$('formatnote').textContent=format.value==='original'?'Default: preserve the uploaded format when browser encoding supports it.':'Export as '+targetName(format.value)+'.';scheduleEstimate()});
+compressBtn.addEventListener('click',()=>{if(!img||!file)return;if(latestBlob&&latestType===targetType()){finish(latestBlob,latestType);return}compressBtn.disabled=true;status('Preparing image…');let canvas;try{canvas=makeCanvas()}catch(e){compressBtn.disabled=false;showError(e.message);return}const type=targetType();try{canvas.toBlob(blob=>{compressBtn.disabled=false;if(!blob){showError('Image export failed. Try JPEG, PNG or WebP.');return}if(blob.type!==type){showError('This browser cannot export '+targetName(type)+'. Choose JPEG, PNG or WebP.');return}finish(blob,type)},type,Number(quality.value)/100)}catch(e){compressBtn.disabled=false;showError('Export failed in this browser. Choose JPEG, PNG or WebP.')}});
+$('remove').addEventListener('click',reset);$('reset').addEventListener('click',reset);
+function reset(){runId++;clearTimeout(estimateTimer);revoke(srcUrl);srcUrl=null;revoke(downloadUrl);downloadUrl=null;file=null;img=null;latestBlob=null;latestType=null;fileInput.value='';$('fileline').classList.remove('show');$('thumb').removeAttribute('src');$('filename').textContent='';$('filesize').textContent='';$('filedims').textContent='';$('originalDims').textContent='— × — px';$('originalDimHint').textContent='Upload an image first';$('outWidth').value='';$('outHeight').value='';$('qout').textContent=quality.value+'%';scale.value=100;$('scaleout').textContent='100%';format.value='original';$('estSize').textContent='—';$('estDelta').textContent='—';$('estDims').textContent='Output dimensions: —';$('estState').textContent='Choose an image to start';$('barfill').style.width='0';$('result').classList.remove('show');$('before').removeAttribute('src');$('after').removeAttribute('src');compressBtn.disabled=true;status('Choose an image to get started.')}
+$('year').textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
