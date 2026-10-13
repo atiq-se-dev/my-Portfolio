@@ -21,16 +21,26 @@ function showPage(id) {
   }, 120);
 }
 
+
 navLinks.forEach(l => {
   l.addEventListener('click', e => {
-    e.preventDefault();
     const pid = l.getAttribute('data-page');
+
+    // Normal links, such as Tools, should open their URL
+    if (!pid) {
+      navMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      return;
+    }
+
+    e.preventDefault();
     showPage(pid);
     history.pushState(null, '', `#${pid}`);
     navMenu.classList.remove('open');
     hamburger.classList.remove('open');
   });
 });
+
 
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-goto]');
