@@ -85,6 +85,22 @@
       border-radius: 24px; background: linear-gradient(145deg, rgba(22,43,68,.94), rgba(9,22,38,.92)); box-shadow: var(--shadow);
       transform: rotate(2deg);
     }
+
+/* Hero workspace floating animation */
+.hero-visual .tool-window {
+  animation: workspaceFloat 5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes workspaceFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0deg);
+  }
+}
+
     .window-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; }
     .dots { display: flex; gap: 5px; }
     .dots i { width: 7px; height: 7px; border-radius: 50%; background: #45617d; }
