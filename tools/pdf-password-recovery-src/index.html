@@ -1,52 +1,33 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#07111f" />
-  <meta name="description" content="Unlock your own password-protected PDF locally in your browser. Your PDF is not uploaded to a server." />
-  <title>PDF Password Unlocker — Atiq Tools</title>
-</head>
-<body>
-  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
-  <header class="topbar">
-    <a class="brand" href="/tools/"><span class="brand-mark">A.</span><span>Atiq<span class="brand-muted"> Tools</span></span></a>
-    <a class="back-link" href="/tools/">← All tools</a>
-  </header>
-  <main class="page-wrap">
-    <section class="intro">
-      <div class="eyebrow"><span class="eyebrow-dot"></span> PRIVATE · IN-BROWSER PROCESSING</div>
-      <h1>PDF Password <span>Unlocker</span></h1>
-      <p class="intro-copy">Remove the open-password protection from a PDF you own when you know its current password. Your document stays on this device while it is processed.</p>
-    </section>
-
-    <section class="workspace" aria-label="PDF unlock tool">
-      <div class="step-heading"><span class="step-number">01</span><div><h2>Choose your PDF</h2><p>Select a password-protected PDF file.</p></div></div>
-      <label class="dropzone" id="dropzone" for="pdfFile">
-        <input id="pdfFile" type="file" accept="application/pdf,.pdf" />
-        <span class="upload-icon" aria-hidden="true">↑</span>
-        <strong id="dropTitle">Drop your PDF here</strong>
-        <span class="drop-subtitle" id="dropSubtitle">or tap to browse files · PDF only</span>
-        <span class="file-meta" id="fileMeta" hidden></span>
-      </label>
-
-      <div class="step-heading second-step"><span class="step-number">02</span><div><h2>Enter the password</h2><p>Use the current password for this PDF.</p></div></div>
-      <label class="field-label" for="pdfPassword">PDF password</label>
-      <div class="password-field"><input id="pdfPassword" type="password" autocomplete="off" placeholder="Enter PDF password" /><button type="button" id="togglePassword" class="show-button" aria-label="Show password">Show</button></div>
-      <label class="ownership"><input id="ownership" type="checkbox" /><span>I confirm that I own this PDF or have permission to remove its password.</span></label>
-      <button id="unlockButton" class="primary-button" type="button" disabled><span aria-hidden="true">🔓</span> Unlock PDF</button>
-      <div id="status" class="status" role="status" aria-live="polite"><span class="status-icon">i</span><span>Select a PDF, enter its password, and confirm permission to continue.</span></div>
-      <div id="result" class="result" hidden><div class="result-icon">✓</div><div class="result-copy"><strong>PDF unlocked successfully</strong><span>Your unlocked copy is ready to save.</span></div><button id="downloadButton" class="download-button" type="button">Download PDF ↓</button></div>
-    </section>
-
-    <section class="info-grid">
-      <article class="info-card"><span class="info-symbol">🔒</span><h3>Private by design</h3><p>The PDF is processed in your browser. It is not sent to our server.</p></article>
-      <article class="info-card"><span class="info-symbol">🧩</span><h3>Known password required</h3><p>This first version does not guess or recover forgotten passwords.</p></article>
-      <article class="info-card"><span class="info-symbol">📄</span><h3>Keep your original</h3><p>The tool creates a separate unlocked copy and does not change your original file.</p></article>
-    </section>
-    <p class="privacy-note">Privacy note: the PDF remains local during processing. The page loads its PDF engine code from this website; no PDF upload is used. Only use this tool for files you own or are authorized to modify.</p>
-  </main>
-  <footer>© Atiq Tools · Built for private, browser-based PDF processing</footer>
-  <script type="module" src="/src/main.js"></script>
-</body>
-</html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="Recover access to your own password-protected PDF locally in your browser.">
+<title>PDF Password Recovery — Atiq Tools</title>
+</head><body>
+<div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+<header class="topbar"><a class="brand" href="/tools/"><span class="brand-mark">A.</span><span>Atiq<span class="brand-muted"> Tools</span></span></a><a class="back-link" href="/tools/">← All tools</a></header>
+<main class="page-wrap">
+<section class="intro"><div class="eyebrow"><span class="eyebrow-dot"></span> PRIVATE · IN-BROWSER PROCESSING</div>
+<h1>PDF Password <span>Recovery</span></h1>
+<p class="intro-copy">Unlock a PDF you own with its current password, or test a limited list of password candidates. Processing happens in your browser; recovery is not guaranteed.</p></section>
+<section class="workspace" aria-label="PDF password recovery">
+<div class="step-heading"><span class="step-number">01</span><div><h2>Choose your PDF</h2><p>Select a password-protected PDF file.</p></div></div>
+<label class="dropzone" id="dropzone" for="pdfFile"><input id="pdfFile" type="file" accept="application/pdf,.pdf">
+<span class="upload-icon">↑</span><strong id="dropTitle">Drop your PDF here</strong><span class="drop-subtitle" id="dropSubtitle">or tap to browse files · PDF only</span><span class="file-meta" id="fileMeta" hidden></span></label>
+<div class="file-details" id="fileDetails" hidden><div><span>File size</span><strong id="detailSize">—</strong></div><div><span>File type</span><strong>PDF document</strong></div><div><span>Processing</span><strong>On this device</strong></div></div>
+<div class="step-heading second-step"><span class="step-number">02</span><div><h2>Choose recovery method</h2><p>Use a known password or test candidate passwords.</p></div></div>
+<div class="mode-switch"><button type="button" class="mode-button active" data-mode="known" aria-pressed="true">🔑 Known password</button><button type="button" class="mode-button" data-mode="auto" aria-pressed="false">✨ Auto recovery</button></div>
+<section id="knownPanel" class="mode-panel"><label class="field-label" for="pdfPassword">Current PDF password</label><div class="password-field"><input id="pdfPassword" type="password" autocomplete="off" placeholder="Enter the password you know"><button type="button" id="togglePassword" class="show-button">Show</button></div><p class="hint">Best option when you already know the password.</p></section>
+<section id="autoPanel" class="mode-panel" hidden><label class="field-label" for="candidatePasswords">Possible passwords (one per line)</label><textarea id="candidatePasswords" rows="6" placeholder="MyPassword123&#10;MyPassword2026&#10;Example#123"></textarea><div class="candidate-actions"><label class="small-check"><input id="includeCommon" type="checkbox" checked> Include a small set of common candidates</label><button id="clearCandidates" type="button" class="text-button">Clear list</button></div><p class="hint">Tests only your list plus an optional small common list (up to 500 unique candidates). This is not unlimited brute force; strong passwords may not be found.</p></section>
+<label class="ownership"><input id="ownership" type="checkbox"><span>I confirm that I own this PDF or have permission to recover its password.</span></label>
+<div class="action-row"><button id="unlockButton" class="primary-button" type="button" disabled>🔓 Unlock PDF</button><button id="stopButton" class="stop-button" type="button" hidden>Stop recovery</button></div>
+<div class="progress-panel" id="progressPanel" hidden><div class="progress-top"><strong id="progressTitle">Preparing recovery…</strong><span id="progressCount">0 / 0</span></div><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div><div class="progress-bottom"><span id="progressElapsed">Elapsed: 0s</span><span id="progressPercent">0%</span></div></div>
+<div id="status" class="status" role="status" aria-live="polite"><span class="status-icon">i</span><span>Select a PDF and choose a recovery method.</span></div>
+<div id="result" class="result" hidden><div class="result-icon">✓</div><div class="result-copy"><strong>PDF unlocked successfully</strong><span id="resultMessage">Your unlocked copy is ready to save.</span></div><button id="downloadButton" class="download-button" type="button">Download PDF ↓</button></div>
+</section>
+<section class="info-grid"><article class="info-card"><span class="info-symbol">🔒</span><h3>Private by design</h3><p>Your PDF and candidate list are processed in your browser and are not uploaded by this tool.</p></article><article class="info-card"><span class="info-symbol">🧠</span><h3>Candidate-list recovery</h3><p>Auto mode tests your supplied possibilities and an optional small common list.</p></article><article class="info-card"><span class="info-symbol">📄</span><h3>Original stays unchanged</h3><p>A separate unlocked copy is created if the password is accepted.</p></article></section>
+<p class="privacy-note">Only use this tool with PDFs you own or have permission to access. Recovery is not guaranteed.</p></main>
+<footer>© Atiq Tools · Browser-based PDF password recovery</footer>
+<script type="module" src="/src/main.js"></script>
+</body></html>
