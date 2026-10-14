@@ -31,8 +31,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: tools/pdf-password-recovery-src/package.json
 
       - name: Install PDF tool dependencies
         working-directory: tools/pdf-password-recovery-src
