@@ -1,463 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#07111f">
-  <meta name="description" content="Free online image, PDF and developer tools. Fast, simple and privacy-friendly tools by Atiq.">
-  <title>Online Tools — Atiq</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #07111f;
-      --bg-soft: #0b1728;
-      --panel: rgba(16, 31, 51, .78);
-      --panel-solid: #101f33;
-      --line: rgba(148, 180, 214, .15);
-      --text: #f3f7ff;
-      --muted: #9eb0c7;
-      --cyan: #35d8f2;
-      --blue: #5d8dff;
-      --green: #57e6b1;
-      --shadow: 0 20px 60px rgba(0, 0, 0, .24);
-      --radius: 22px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
-    body {
-      margin: 0; min-height: 100vh; color: var(--text);
-      background:
-        radial-gradient(ellipse at 12% 0%, rgba(32, 118, 177, .18), transparent 38%),
-        radial-gradient(ellipse at 88% 20%, rgba(69, 69, 190, .14), transparent 32%),
-        var(--bg);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.6; overflow-x: hidden;
-    }
-    a { color: inherit; text-decoration: none; }
-    button, input { font: inherit; }
-    button { color: inherit; }
-    .container { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
-    .topbar {
-      position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line);
-      background: rgba(7, 17, 31, .82); backdrop-filter: blur(18px);
-    }
-    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.035em; }
-    .brand-mark {
-      display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px;
-      color: #06111d; background: linear-gradient(135deg, var(--cyan), #8af5dc);
-      box-shadow: 0 7px 24px rgba(53, 216, 242, .18); font-size: 21px;
-    }
-    .brand-name { font-size: 17px; }
-    .brand-name small { display: block; margin-top: -4px; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-    .nav-links { display: flex; align-items: center; gap: 26px; color: var(--muted); font-size: 14px; }
-    .nav-links a { transition: color .2s ease; }
-    .nav-links a:hover, .nav-links a:focus-visible { color: var(--cyan); }
-    .nav-cta {
-      padding: 10px 15px; border: 1px solid rgba(53,216,242,.32); border-radius: 12px;
-      color: var(--cyan) !important; background: rgba(53,216,242,.07);
-    }
-    .menu-toggle { display: none; border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: 9px 12px; cursor: pointer; }
-    .hero { position: relative; padding: 76px 0 52px; }
-    .hero-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 38px; align-items: center; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 9px; padding: 7px 12px; border-radius: 999px;
-      border: 1px solid rgba(53,216,242,.2); background: rgba(53,216,242,.07);
-      color: #9ceefa; font-size: 12px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase;
-    }
-    .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 5px rgba(87,230,177,.1); }
-    h1 { max-width: 700px; margin: 20px 0 18px; font-size: clamp(42px, 6vw, 68px); line-height: 1.04; letter-spacing: -.065em; }
-    .gradient-text { color: transparent; background: linear-gradient(95deg, var(--cyan), #8faaff 70%, #c5a9ff); -webkit-background-clip: text; background-clip: text; }
-    .hero-copy { max-width: 610px; margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 18px); }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 13px 18px; border-radius: 13px; border: 1px solid transparent; font-weight: 750; font-size: 14px; transition: transform .2s, box-shadow .2s, border-color .2s; cursor: pointer; }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary { color: #04111b; background: linear-gradient(100deg, var(--cyan), #8cf4d6); box-shadow: 0 10px 30px rgba(53,216,242,.14); }
-    .btn-secondary { color: var(--text); border-color: var(--line); background: rgba(255,255,255,.035); }
-    .hero-visual { min-height: 320px; position: relative; display: grid; place-items: center; }
-    .orb {
-      position: absolute; width: 260px; height: 260px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 28%, rgba(53,216,242,.27), rgba(93,141,255,.11) 46%, transparent 70%);
-      filter: blur(4px); animation: float 7s ease-in-out infinite;
-    }
-    .tool-window {
-      width: min(100%, 390px); position: relative; padding: 19px; border: 1px solid rgba(146,190,231,.2);
-      border-radius: 24px; background: linear-gradient(145deg, rgba(22,43,68,.94), rgba(9,22,38,.92)); box-shadow: var(--shadow);
-      transform: rotate(2deg);
-    }
-
-/* Hero workspace floating animation */
-.hero-visual .tool-window {
-  animation: workspaceFloat 3s ease-in-out infinite;
-  transform-origin: center;
-}
-
-@keyframes workspaceFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(3deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(0deg);
-  }
-}
-
-    .window-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; }
-    .dots { display: flex; gap: 5px; }
-    .dots i { width: 7px; height: 7px; border-radius: 50%; background: #45617d; }
-    .preview-tile { margin-top: 17px; min-height: 130px; display: grid; place-items: center; border: 1px dashed rgba(53,216,242,.3); border-radius: 17px; background: rgba(53,216,242,.045); font-size: 50px; }
-    .fake-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; font-size: 12px; color: var(--muted); }
-    .fake-bar { height: 7px; flex: 1; max-width: 170px; overflow: hidden; border-radius: 9px; background: #263b53; }
-    .fake-bar span { display: block; width: 68%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), var(--blue)); }
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 26px; max-width: 600px; }
-    .stat { padding: 14px 15px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.025); }
-    .stat strong { display: block; font-size: 20px; letter-spacing: -.03em; }
-    .stat span { color: var(--muted); font-size: 12px; }
-    .section { padding: 38px 0 66px; }
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
-    .section-kicker { margin: 0 0 7px; color: var(--cyan); font-size: 12px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
-    h2 { margin: 0; font-size: clamp(27px, 4vw, 38px); line-height: 1.15; letter-spacing: -.045em; }
-    .section-desc { max-width: 560px; margin: 9px 0 0; color: var(--muted); font-size: 14px; }
-    .search-wrap { position: relative; width: min(100%, 310px); flex-shrink: 0; }
-    .search-wrap span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
-    .search { width: 100%; padding: 13px 14px 13px 42px; color: var(--text); border: 1px solid var(--line); outline: none; border-radius: 14px; background: rgba(12,26,43,.85); transition: border-color .2s, box-shadow .2s; }
-    .search:focus { border-color: rgba(53,216,242,.65); box-shadow: 0 0 0 4px rgba(53,216,242,.08); }
-    .filters { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 25px; }
-    .filter {
-      padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted);
-      background: rgba(255,255,255,.025); cursor: pointer; font-size: 13px; font-weight: 700; transition: all .2s;
-    }
-    .filter:hover { color: var(--text); border-color: rgba(53,216,242,.35); }
-    .filter.active { color: #04111b; background: var(--cyan); border-color: var(--cyan); }
-    .category-block { margin-top: 34px; }
-    .category-title { display: flex; align-items: center; gap: 10px; margin: 0 0 15px; font-size: 19px; letter-spacing: -.025em; }
-    .category-title .cat-icon { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.035); }
-    .tool-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
-    .tool-card {
-      min-width: 0; position: relative; display: flex; flex-direction: column; min-height: 218px; padding: 20px;
-      border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
-      background: linear-gradient(145deg, rgba(18,36,59,.85), rgba(11,24,41,.83));
-      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-    }
-    .tool-card::after { content: ""; position: absolute; width: 110px; height: 110px; top: -58px; right: -40px; border-radius: 50%; background: rgba(53,216,242,.08); filter: blur(2px); pointer-events: none; }
-    .tool-card:hover { transform: translateY(-5px); border-color: rgba(53,216,242,.35); box-shadow: 0 16px 36px rgba(0,0,0,.18); }
-    .tool-top { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
-    .tool-icon { display: grid; place-items: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: 15px; background: linear-gradient(145deg, rgba(53,216,242,.14), rgba(93,141,255,.12)); border: 1px solid rgba(53,216,242,.12); font-size: 24px; }
-    .status { padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 10px; font-weight: 800; white-space: nowrap; text-transform: uppercase; letter-spacing: .06em; }
-    .status.ready { color: var(--green); border-color: rgba(87,230,177,.22); background: rgba(87,230,177,.07); }
-    .tool-card h4 { margin: 16px 0 5px; font-size: 17px; line-height: 1.3; letter-spacing: -.025em; }
-    .tool-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
-    .tool-link { display: inline-flex; align-items: center; gap: 7px; width: fit-content; margin-top: auto; padding-top: 18px; color: var(--cyan); font-size: 13px; font-weight: 800; }
-    .tool-link.disabled { color: #8192a9; cursor: default; }
-    .empty-state { display: none; padding: 40px 20px; border: 1px dashed var(--line); border-radius: 18px; text-align: center; color: var(--muted); }
-    .empty-state strong { display: block; color: var(--text); font-size: 18px; margin-bottom: 5px; }
-    .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-    .how-card { padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.025); }
-    .how-number { color: var(--cyan); font-size: 12px; font-weight: 900; letter-spacing: .12em; }
-    .how-card h3 { margin: 8px 0 5px; font-size: 16px; }
-    .how-card p { margin: 0; color: var(--muted); font-size: 13px; }
-    .privacy-banner { display: flex; align-items: center; gap: 18px; padding: 23px; margin-top: 30px; border: 1px solid rgba(87,230,177,.16); border-radius: 20px; background: linear-gradient(100deg, rgba(87,230,177,.07), rgba(53,216,242,.035)); }
-    .privacy-icon { display: grid; place-items: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: 15px; background: rgba(87,230,177,.1); font-size: 25px; }
-    .privacy-banner h3 { margin: 0 0 4px; font-size: 16px; }
-    .privacy-banner p { margin: 0; color: var(--muted); font-size: 13px; }
-    footer { padding: 27px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
-    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .footer-links { display: flex; gap: 18px; }
-    .footer-links a:hover { color: var(--cyan); }
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
-    .reveal.in-view { opacity: 1; transform: translateY(0); }
-    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-13px) scale(1.035); } }
-    @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr .8fr; gap: 15px; }
-      .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .nav-links { gap: 16px; }
-    }
-    @media (max-width: 680px) {
-      .container { width: min(100% - 28px, 540px); }
-      .nav { min-height: 66px; }
-      .menu-toggle { display: inline-flex; align-items: center; gap: 7px; }
-      .nav-links {
-        display: none; position: absolute; top: 65px; left: 14px; right: 14px; padding: 15px;
-        flex-direction: column; align-items: stretch; gap: 0; border: 1px solid var(--line);
-        border-radius: 16px; background: #0b1728; box-shadow: var(--shadow);
-      }
-      .nav-links.open { display: flex; }
-      .nav-links a { padding: 12px 10px; }
-      .nav-cta { text-align: center; margin-top: 5px; }
-      .hero { padding: 53px 0 28px; }
-      .hero-grid { grid-template-columns: 1fr; }
-      .hero-visual { min-height: 265px; margin-top: 5px; }
-      .tool-window { max-width: 350px; }
-      .orb { width: 220px; height: 220px; }
-      .stats { gap: 8px; }
-      .stat { padding: 12px 10px; }
-      .stat strong { font-size: 17px; }
-      .stat span { font-size: 11px; }
-      .section { padding: 34px 0 48px; }
-      .section-head { align-items: stretch; flex-direction: column; gap: 17px; }
-      .search-wrap { width: 100%; }
-      .tool-grid { grid-template-columns: 1fr; }
-      .tool-card { min-height: 195px; }
-      .how { grid-template-columns: 1fr; }
-      .privacy-banner { align-items: flex-start; padding: 18px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-      .reveal { opacity: 1; transform: none; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="Free online image, PDF and developer tools by Atiq.">
+<title>Online Tools — Atiq</title>
+<style>
+:root{color-scheme:dark;--bg:#07111f;--panel:#101f33;--line:rgba(148,180,214,.17);--text:#f3f7ff;--muted:#9eb0c7;--cyan:#35d8f2;--blue:#5d8dff;--green:#57e6b1}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;min-height:100vh;color:var(--text);background:radial-gradient(ellipse at 12% 0%,rgba(32,118,177,.18),transparent 38%),radial-gradient(ellipse at 88% 20%,rgba(69,69,190,.14),transparent 32%),var(--bg);font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}a{color:inherit;text-decoration:none}button,input{font:inherit}.container{width:min(1160px,calc(100% - 32px));margin:auto}
+.topbar{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line);background:rgba(7,17,31,.9);backdrop-filter:blur(18px)}.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:10px;font-weight:800}.brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;color:#06111d;background:linear-gradient(135deg,var(--cyan),#8af5dc);font-size:21px}.brand small{display:block;margin-top:-4px;color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.nav-links{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:14px}.nav-links a:hover{color:var(--cyan)}.nav-cta{padding:9px 13px;border:1px solid rgba(53,216,242,.3);border-radius:12px;color:var(--cyan)!important}.menu-toggle{display:none;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text)}
+.hero{padding:72px 0 44px}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 12px;border:1px solid rgba(53,216,242,.2);border-radius:999px;background:rgba(53,216,242,.07);color:#9ceefa;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px rgba(87,230,177,.1)}h1{margin:20px 0 16px;font-size:clamp(40px,6vw,66px);line-height:1.05;letter-spacing:-.06em}.gradient-text{color:transparent;background:linear-gradient(95deg,var(--cyan),#8faaff 70%,#c5a9ff);background-clip:text;-webkit-background-clip:text}.hero-copy{max-width:610px;color:var(--muted);font-size:18px}.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 17px;border:1px solid var(--line);border-radius:13px;font-size:14px;font-weight:800}.btn-primary{color:#04111b;background:linear-gradient(100deg,var(--cyan),#8cf4d6);border-color:transparent}.hero-visual{position:relative;display:grid;place-items:center;min-height:280px}.tool-window{width:min(100%,390px);padding:20px;border:1px solid rgba(146,190,231,.22);border-radius:24px;background:linear-gradient(145deg,rgba(22,43,68,.96),rgba(9,22,38,.95));box-shadow:0 20px 60px #0005;animation:float 4s ease-in-out infinite}.window-head{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.preview-tile{display:grid;place-items:center;min-height:130px;margin-top:16px;border:1px dashed rgba(53,216,242,.3);border-radius:17px;background:rgba(53,216,242,.045);font-size:50px}.fake-row{display:flex;justify-content:space-between;gap:10px;margin-top:13px;color:var(--muted);font-size:12px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:25px}.stat{padding:12px;border:1px solid var(--line);border-radius:15px;background:#ffffff06}.stat strong,.stat span{display:block}.stat strong{font-size:17px}.stat span{color:var(--muted);font-size:11px}
+.section{padding:35px 0 62px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:22px}.section-kicker{margin:0 0 7px;color:var(--cyan);font-size:12px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}h2{margin:0;font-size:clamp(27px,4vw,38px);line-height:1.2;letter-spacing:-.04em}.section-desc{max-width:560px;margin:8px 0 0;color:var(--muted);font-size:14px}.search-wrap{position:relative;width:min(100%,310px);flex-shrink:0}.search-wrap span{position:absolute;left:13px;top:50%;transform:translateY(-50%)}.search{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);border-radius:14px;outline:none;background:#0c1a2b;color:var(--text)}.search:focus{border-color:var(--cyan);box-shadow:0 0 0 4px #35d8f214}.filters{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:24px}.filter{padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:#ffffff06;color:var(--muted);cursor:pointer;font-size:13px;font-weight:800}.filter.active{background:var(--cyan);border-color:var(--cyan);color:#04111b}.category-block{margin-top:30px}.category-title{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:20px}.cat-icon{display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--line);border-radius:12px;background:#ffffff08}.tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.tool-card{position:relative;display:flex;flex-direction:column;min-width:0;min-height:210px;padding:20px;border:1px solid var(--line);border-radius:21px;overflow:hidden;background:linear-gradient(145deg,rgba(18,36,59,.9),rgba(11,24,41,.88));transition:transform .22s,border-color .22s,box-shadow .22s}.tool-card[hidden],.category-block[hidden]{display:none!important}.tool-card.is-clickable{cursor:pointer}.tool-card.is-clickable:hover,.tool-card.is-clickable:focus-visible{transform:translateY(-5px);border-color:#35d8f28a;box-shadow:0 16px 36px #0005;outline:none}.tool-top{display:flex;justify-content:space-between;align-items:start;gap:10px}.tool-icon{display:grid;place-items:center;width:48px;height:48px;flex-shrink:0;border:1px solid #35d8f222;border-radius:15px;background:linear-gradient(145deg,#35d8f224,#5d8dff20);font-size:24px}.status{padding:4px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.status.ready{color:var(--green);border-color:#57e6b13b;background:#57e6b111}.tool-card h4{margin:15px 0 5px;font-size:17px;line-height:1.3}.tool-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}.tool-link{display:inline-flex;align-items:center;gap:7px;width:fit-content;margin-top:auto;padding-top:17px;color:var(--cyan);font-size:13px;font-weight:900}.tool-link.disabled{color:#8192a9;cursor:default}.empty-state{display:none;padding:35px 18px;border:1px dashed var(--line);border-radius:18px;text-align:center;color:var(--muted)}.empty-state strong{display:block;color:var(--text);font-size:18px}.how{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.how-card{padding:21px;border:1px solid var(--line);border-radius:18px;background:#ffffff06}.how-number{color:var(--cyan);font-size:12px;font-weight:900;letter-spacing:.12em}.how-card h3{margin:8px 0 5px;font-size:16px}.how-card p{margin:0;color:var(--muted);font-size:13px}.privacy-banner{display:flex;align-items:center;gap:16px;margin-top:28px;padding:22px;border:1px solid #57e6b128;border-radius:20px;background:linear-gradient(100deg,#57e6b111,#35d8f208)}.privacy-icon{display:grid;place-items:center;width:48px;height:48px;flex-shrink:0;border-radius:15px;background:#57e6b119;font-size:25px}.privacy-banner h3{margin:0 0 4px;font-size:16px}.privacy-banner p{margin:0;color:var(--muted);font-size:13px}footer{padding:25px 0;border-top:1px solid var(--line);color:var(--muted);font-size:12px}.footer-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.footer-links{display:flex;gap:18px}.footer-links a:hover{color:var(--cyan)}
+/* Featured PageCraft card: animated glow, without distracting from other tools */
+.tool-card.pagecraft-feature{isolation:isolate;border-color:#35d8f27a;background:linear-gradient(135deg,rgba(12,52,76,.98),rgba(21,34,68,.98) 55%,rgba(35,24,73,.96));box-shadow:0 0 0 1px #35d8f21c,0 0 25px #35d8f21c;animation:pagecraftGlow 3.5s ease-in-out infinite}
+.pagecraft-feature:before{content:"";position:absolute;inset:-2px;z-index:-1;border-radius:inherit;background:linear-gradient(115deg,#35d8f244,transparent 35%,#8b7cff38,transparent 72%,#35d8f244);opacity:.8;pointer-events:none}
+.pagecraft-feature .tool-icon{background:linear-gradient(135deg,#35d8f23b,#8b7cff35);border-color:#35d8f266}.pagecraft-feature h4{font-size:19px}.premium-label{color:#b7f5ff;border-color:#35d8f266;background:#35d8f216}.pagecraft-feature .tool-link{color:#a8f5ff}
+@keyframes pagecraftGlow{0%,100%{box-shadow:0 0 0 1px #35d8f21c,0 0 20px #35d8f21a}50%{box-shadow:0 0 0 1px #35d8f266,0 0 34px #35d8f242}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-9px) rotate(0)}}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr .8fr;gap:15px}.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nav-links{gap:15px}}
+@media(max-width:680px){.nav{min-height:65px}.menu-toggle{display:block}.nav-links{display:none;position:absolute;top:64px;left:14px;right:14px;padding:12px;flex-direction:column;align-items:stretch;gap:0;border:1px solid var(--line);border-radius:16px;background:#0b1728;box-shadow:0 20px 60px #0007}.nav-links.open{display:flex}.nav-links a{padding:12px 10px}.nav-cta{text-align:center;margin-top:4px}.hero{padding:48px 0 28px}.hero-grid{grid-template-columns:1fr}.hero-visual{min-height:240px}.section{padding:30px 0 45px}.section-head{align-items:stretch;flex-direction:column}.search-wrap{width:100%}.tool-grid,.how{grid-template-columns:1fr}.tool-card{min-height:190px}.stats{gap:7px}.stat{padding:10px 8px}.stat strong{font-size:15px}.stat span{font-size:10px}.privacy-banner{align-items:flex-start;padding:17px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container nav">
-      <a class="brand" href="/" aria-label="Atiq home">
-        <span class="brand-mark">⚡</span>
-        <span class="brand-name">Atiq <small>Online Tools</small></span>
-      </a>
-      <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navLinks">☰ <span>Menu</span></button>
-      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
-        <a href="#tools">All tools</a>
-        <a href="#how-it-works">How it works</a>
-        <a href="#privacy">Privacy</a>
-        <a class="nav-cta" href="/">← Main website</a>
-      </nav>
-    </div>
-  </header>
+<header class="topbar"><div class="container nav">
+<a class="brand" href="/" aria-label="Atiq home"><span class="brand-mark">⚡</span><span>Atiq <small>Online Tools</small></span></a>
+<button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navLinks">☰ Menu</button>
+<nav class="nav-links" id="navLinks" aria-label="Main navigation"><a href="#tools">All tools</a><a href="#how-it-works">How it works</a><a href="#privacy">Privacy</a><a class="nav-cta" href="/">← Main website</a></nav>
+</div></header>
+<main>
+<section class="hero"><div class="container hero-grid"><div>
+<span class="eyebrow"><span class="pulse"></span> Simple tools. Better workflow.</span>
+<h1>Get things done<br>with <span class="gradient-text">online tools.</span></h1>
+<p class="hero-copy">Handy tools for images, PDFs and everyday developer tasks — designed to be quick, simple and easy to use on any device.</p>
+<div class="hero-actions"><a class="btn btn-primary" href="#tools">🧰 Explore tools →</a><a class="btn" href="#how-it-works">✨ How it works</a></div>
+<div class="stats"><div class="stat"><strong>🖼️ Image</strong><span>Resize and convert</span></div><div class="stat"><strong>📄 PDF</strong><span>Manage documents</span></div><div class="stat"><strong>💻 Dev</strong><span>Format and encode</span></div></div>
+</div><div class="hero-visual" aria-hidden="true"><div class="tool-window"><div class="window-head"><span>⚡ Quick workspace</span><span>● ● ●</span></div><div class="preview-tile">🖼️</div><div class="fake-row"><span>Image optimization</span><span style="color:var(--green)">Ready</span></div><div class="fake-row"><span>Fast · Simple · Convenient</span><span>✨</span></div></div></div></div></section>
+<section class="section" id="tools"><div class="container">
+<div class="section-head"><div><p class="section-kicker">Toolbox</p><h2>Find the right tool</h2><p class="section-desc">Search by name or choose a category. Available tools open directly; tools still being built are clearly marked.</p></div><label class="search-wrap"><span>🔎</span><input class="search" id="toolSearch" type="search" placeholder="Search tools..." autocomplete="off" aria-label="Search tools"></label></div>
+<div class="filters" role="group" aria-label="Filter tools by category"><button class="filter active" data-filter="all" aria-pressed="true">✨ All tools</button><button class="filter" data-filter="image" aria-pressed="false">🖼️ Image</button><button class="filter" data-filter="pdf" aria-pressed="false">📄 PDF</button><button class="filter" data-filter="developer" aria-pressed="false">💻 Developer</button></div>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="reveal">
-          <span class="eyebrow"><span class="pulse"></span> Simple tools. Better workflow.</span>
-          <h1>Get things done<br>with <span class="gradient-text">online tools.</span></h1>
-          <p class="hero-copy">Handy tools for images, PDFs and everyday developer tasks — designed to be quick, simple and easy to use on any device.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#tools">🧰 Explore tools <span aria-hidden="true">→</span></a>
-            <a class="btn btn-secondary" href="#how-it-works">✨ How it works</a>
-          </div>
-          <div class="stats" aria-label="Tool categories">
-            <div class="stat"><strong>🖼️ Image</strong><span>Resize and convert</span></div>
-            <div class="stat"><strong>📄 PDF</strong><span>Manage documents</span></div>
-            <div class="stat"><strong>💻 Dev</strong><span>Format and encode</span></div>
-          </div>
-        </div>
-        <div class="hero-visual reveal" aria-hidden="true">
-          <div class="orb"></div>
-          <div class="tool-window">
-            <div class="window-head"><span>⚡ Quick workspace</span><span class="dots"><i></i><i></i><i></i></span></div>
-            <div class="preview-tile">🖼️</div>
-            <div class="fake-row"><span>Image optimization</span><span style="color:var(--green)">Ready</span></div>
-            <div class="fake-row"><span class="fake-bar"><span></span></span><span>68%</span></div>
-            <div class="fake-row"><span>Fast · Simple · Convenient</span><span>✨</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
+<!-- PDF section intentionally placed above Image Tools -->
+<div class="category-block" data-category-block="pdf"><h3 class="category-title"><span class="cat-icon">📄</span> PDF tools</h3><div class="tool-grid">
+<article class="tool-card pagecraft-feature" data-category="pdf" data-search="pagecraft pdf studio premium pdf editor organize pages duplicate single page multiple pages per sheet">
+<div class="tool-top"><span class="tool-icon">📘</span><span class="status premium-label">✦ Featured</span></div><h4>PageCraft PDF Studio</h4><p>Organize PDF pages, duplicate pages, arrange sheets and prepare a polished PDF in one workspace.</p><a class="tool-link" href="/tools/pdf-suite/">Open PageCraft Studio <span>→</span></a></article>
+<article class="tool-card" data-category="pdf" data-search="pdf password unlocker remove password"><div class="tool-top"><span class="tool-icon">🔓</span><span class="status ready">Available</span></div><h4>PDF Password Unlocker</h4><p>Unlock a PDF using its current password and save an unlocked copy.</p><a class="tool-link" href="/tools/pdf-password-recovery/">Open tool →</a></article>
+<article class="tool-card" data-category="pdf" data-search="pdf merger combine join documents"><div class="tool-top"><span class="tool-icon">🧩</span><span class="status ready">Available</span></div><h4>PDF Merger</h4><p>Combine multiple PDF files into one organized document.</p><a class="tool-link" href="/tools/pdf-merger/">Open tool →</a></article>
+<article class="tool-card" data-category="pdf" data-search="pdf splitter split extract pages"><div class="tool-top"><span class="tool-icon">📑</span><span class="status">Coming soon</span></div><h4>PDF Splitter</h4><p>Separate a PDF into smaller files or selected pages.</p><span class="tool-link disabled">In the works ✨</span></article>
+<article class="tool-card" data-category="pdf" data-search="images to pdf jpg png pictures document"><div class="tool-top"><span class="tool-icon">🖼️</span><span class="status">Coming soon</span></div><h4>Images → PDF</h4><p>Turn your images into a shareable PDF document.</p><span class="tool-link disabled">In the works ✨</span></article>
+<article class="tool-card" data-category="pdf" data-search="pdf to images export pages jpg png"><div class="tool-top"><span class="tool-icon">📸</span><span class="status">Coming soon</span></div><h4>PDF → Images</h4><p>Export PDF pages as image files for easy sharing.</p><span class="tool-link disabled">In the works ✨</span></article>
+</div></div>
 
-    <section class="section" id="tools">
-      <div class="container">
-        <div class="section-head reveal">
-          <div>
-            <p class="section-kicker">Toolbox</p>
-            <h2>Find the right tool</h2>
-            <p class="section-desc">Search by name or choose a category. Available tools open directly; tools still being built are clearly marked.</p>
-          </div>
-          <label class="search-wrap">
-            <span aria-hidden="true">🔎</span>
-            <input class="search" id="toolSearch" type="search" placeholder="Search tools..." autocomplete="off" aria-label="Search tools">
-          </label>
-        </div>
-        <div class="filters reveal" role="group" aria-label="Filter tools by category">
-          <button class="filter active" type="button" data-filter="all" aria-pressed="true">✨ All tools</button>
-          <button class="filter" type="button" data-filter="image" aria-pressed="false">🖼️ Image</button>
-          <button class="filter" type="button" data-filter="pdf" aria-pressed="false">📄 PDF</button>
-          <button class="filter" type="button" data-filter="developer" aria-pressed="false">💻 Developer</button>
-        </div>
+<div class="category-block" data-category-block="image"><h3 class="category-title"><span class="cat-icon">🖼️</span> Image tools</h3><div class="tool-grid">
+<article class="tool-card" data-category="image" data-search="image compressor compress reduce file size optimize photo"><div class="tool-top"><span class="tool-icon">🗜️</span><span class="status ready">Available</span></div><h4>Image Compressor</h4><p>Reduce image file size and adjust quality and dimensions before downloading.</p><a class="tool-link" href="/tools/image-compressor/">Open tool →</a></article>
+<article class="tool-card" data-category="image" data-search="image resizer resize dimensions width height"><div class="tool-top"><span class="tool-icon">📐</span><span class="status">Coming soon</span></div><h4>Image Resizer</h4><p>Resize photos to the exact width and height you need.</p><span class="tool-link disabled">In the works ✨</span></article>
+<article class="tool-card" data-category="image" data-search="jpg jpeg png converter convert format"><div class="tool-top"><span class="tool-icon">🔄</span><span class="status">Coming soon</span></div><h4>JPG → PNG</h4><p>Convert JPG pictures into PNG format with a simple workflow.</p><span class="tool-link disabled">In the works ✨</span></article>
+<article class="tool-card" data-category="image" data-search="png jpg jpeg converter convert format"><div class="tool-top"><span class="tool-icon">🔁</span><span class="status">Coming soon</span></div><h4>PNG → JPG</h4><p>Convert PNG images into smaller, widely compatible JPG files.</p><span class="tool-link disabled">In the works ✨</span></article>
+<article class="tool-card" data-category="image" data-search="image cropper crop trim photo"><div class="tool-top"><span class="tool-icon">✂️</span><span class="status">Coming soon</span></div><h4>Image Cropper</h4><p>Crop an image to focus on the part that matters.</p><span class="tool-link disabled">In the works ✨</span></article>
+</div></div>
 
-        <div class="category-block" data-category-block="image">
-          <h3 class="category-title reveal"><span class="cat-icon">🖼️</span> Image tools</h3>
-          <div class="tool-grid">
-            <article class="tool-card reveal" data-category="image" data-search="image compressor compress reduce file size optimize photo">
-              <div class="tool-top"><span class="tool-icon">🗜️</span><span class="status ready">Available</span></div>
-              <h4>Image Compressor</h4><p>Reduce image file size and adjust quality and dimensions before downloading.</p>
-              <a class="tool-link" href="/tools/image-compressor/">Open tool <span>→</span></a>
-            </article>
-            <article class="tool-card reveal" data-category="image" data-search="image resizer resize dimensions width height">
-              <div class="tool-top"><span class="tool-icon">📐</span><span class="status">Coming soon</span></div>
-              <h4>Image Resizer</h4><p>Resize photos to the exact width and height you need.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="image" data-search="jpg jpeg png converter convert format">
-              <div class="tool-top"><span class="tool-icon">🔄</span><span class="status">Coming soon</span></div>
-              <h4>JPG → PNG</h4><p>Convert JPG pictures into PNG format with a simple workflow.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="image" data-search="png jpg jpeg converter convert format">
-              <div class="tool-top"><span class="tool-icon">🔁</span><span class="status">Coming soon</span></div>
-              <h4>PNG → JPG</h4><p>Convert PNG images into smaller, widely compatible JPG files.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="image" data-search="image cropper crop trim photo">
-              <div class="tool-top"><span class="tool-icon">✂️</span><span class="status">Coming soon</span></div>
-              <h4>Image Cropper</h4><p>Crop an image to focus on the part that matters.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-          </div>
-        </div>
-
-        <div class="category-block" data-category-block="pdf">
-          <h3 class="category-title reveal"><span class="cat-icon">📄</span> PDF tools</h3>
-          <div class="tool-grid">
-
-         <article class="tool-card reveal" data-category="pdf" data-search="pdf password unlocker remove password">
-          <div class="tool-top"><span class="tool-icon">🔓</span><span class="status ready">Available</span></div>
-          <h4>PDF Password Unlocker</h4>
-          <p>Unlock a PDF using its current password and save an unlocked copy.</p>
-          <a class="tool-link" href="/tools/pdf-password-recovery/">Open tool <span>→</span></a>
-        </article>
-
-            <article class="tool-card reveal" data-category="pdf" data-search="pdf merger combine join documents">
-  <div class="tool-top">
-    <span class="tool-icon">🧩</span>
-    <span class="status ready">Available</span>
-  </div>
-  <h4>PDF Merger</h4>
-  <p>Combine multiple PDF files into one organized document.</p>
-  <a href="/tools/pdf-merger/" class="tool-link">Open Tool →</a>
-</article>
-
-            <article class="tool-card reveal" data-category="pdf" data-search="pdf splitter split extract pages">
-              <div class="tool-top"><span class="tool-icon">📑</span><span class="status">Coming soon</span></div>
-              <h4>PDF Splitter</h4><p>Separate a PDF into smaller files or selected pages.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="pdf" data-search="images to pdf jpg png pictures document">
-              <div class="tool-top"><span class="tool-icon">🖼️</span><span class="status">Coming soon</span></div>
-              <h4>Images → PDF</h4><p>Turn your images into a shareable PDF document.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="pdf" data-search="pdf to images export pages jpg png">
-              <div class="tool-top"><span class="tool-icon">📸</span><span class="status">Coming soon</span></div>
-              <h4>PDF → Images</h4><p>Export PDF pages as image files for easy sharing.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-          </div>
-        </div>
-
-        <div class="category-block" data-category-block="developer">
-          <h3 class="category-title reveal"><span class="cat-icon">💻</span> Developer tools</h3>
-          <div class="tool-grid">
-            <article class="tool-card reveal" data-category="developer" data-search="json formatter pretty print format developer">
-              <div class="tool-top"><span class="tool-icon">{ }</span><span class="status">Coming soon</span></div>
-              <h4>JSON Formatter</h4><p>Make JSON easier to read with clean indentation and layout.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="developer" data-search="json validator validate syntax errors">
-              <div class="tool-top"><span class="tool-icon">✅</span><span class="status">Coming soon</span></div>
-              <h4>JSON Validator</h4><p>Check JSON syntax and find formatting mistakes quickly.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-            <article class="tool-card reveal" data-category="developer" data-search="base64 encoder decoder encode decode text">
-              <div class="tool-top"><span class="tool-icon">🔐</span><span class="status">Coming soon</span></div>
-              <h4>Base64 Encoder / Decoder</h4><p>Encode text to Base64 or decode it back in seconds.</p><span class="tool-link disabled">In the works ✨</span>
-            </article>
-          </div>
-        </div>
-        <div class="empty-state" id="emptyState"><strong>🤔 No matching tools</strong>Try another search term or choose a different category.</div>
-      </div>
-    </section>
-
-    <section class="section" id="how-it-works">
-      <div class="container">
-        <div class="section-head reveal">
-          <div><p class="section-kicker">Easy workflow</p><h2>Made to feel simple</h2><p class="section-desc">No complicated steps. Pick a tool and follow the clear controls.</p></div>
-        </div>
-        <div class="how">
-          <article class="how-card reveal"><span class="how-number">STEP 01</span><h3>🧰 Choose a tool</h3><p>Find the tool you need using categories or the search bar.</p></article>
-          <article class="how-card reveal"><span class="how-number">STEP 02</span><h3>⚙️ Add your content</h3><p>Upload a file or enter data, then adjust the available settings.</p></article>
-          <article class="how-card reveal"><span class="how-number">STEP 03</span><h3>📥 Get your result</h3><p>Preview the result and download it when you're ready.</p></article>
-        </div>
-        <div class="privacy-banner reveal" id="privacy">
-          <span class="privacy-icon">🛡️</span>
-          <div><h3>Privacy matters</h3><p>Image Compressor processes images in your browser on your device. Other tools may have different processing methods; check each tool's details before using sensitive files.</p></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container footer-inner">
-      <span>© <span id="year"></span> Atiq. Built to make everyday tasks easier.</span>
-      <div class="footer-links"><a href="/">Main website</a><a href="#tools">Back to tools ↑</a></div>
-    </div>
-  </footer>
-
-  <script>
-    (() => {
-      const menuToggle = document.getElementById('menuToggle');
-      const navLinks = document.getElementById('navLinks');
-      const searchInput = document.getElementById('toolSearch');
-      const filterButtons = [...document.querySelectorAll('.filter')];
-      const cards = [...document.querySelectorAll('.tool-card')];
-      const categoryBlocks = [...document.querySelectorAll('[data-category-block]')];
-      const emptyState = document.getElementById('emptyState');
-      let activeCategory = 'all';
-
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      menuToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('open');
-        menuToggle.setAttribute('aria-expanded', String(isOpen));
-        menuToggle.innerHTML = isOpen ? '✕ <span>Close</span>' : '☰ <span>Menu</span>';
-      });
-
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-          menuToggle.innerHTML = '☰ <span>Menu</span>';
-        });
-      });
-
-      function filterTools() {
-        const term = searchInput.value.trim().toLowerCase();
-        let visibleCount = 0;
-        cards.forEach(card => {
-          const categoryMatch = activeCategory === 'all' || card.dataset.category === activeCategory;
-          const searchable = (card.dataset.search + ' ' + card.innerText).toLowerCase();
-          const searchMatch = !term || searchable.includes(term);
-          const visible = categoryMatch && searchMatch;
-          card.hidden = !visible;
-          if (visible) visibleCount++;
-        });
-        categoryBlocks.forEach(block => {
-          const visibleCards = [...block.querySelectorAll('.tool-card')].some(card => !card.hidden);
-          block.hidden = !visibleCards;
-        });
-        emptyState.style.display = visibleCount ? 'none' : 'block';
-      }
-
-      filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          activeCategory = button.dataset.filter;
-          filterButtons.forEach(item => {
-            const active = item === button;
-            item.classList.toggle('active', active);
-            item.setAttribute('aria-pressed', String(active));
-          });
-          filterTools();
-        });
-      });
-      searchInput.addEventListener('input', filterTools);
-
-      const revealElements = document.querySelectorAll('.reveal');
-      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        const observer = new IntersectionObserver((entries, currentObserver) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('in-view');
-              currentObserver.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: '0px 0px -35px 0px' });
-        revealElements.forEach((element, index) => {
-          element.style.transitionDelay = `${Math.min(index % 4, 3) * 65}ms`;
-          observer.observe(element);
-        });
-      } else {
-        revealElements.forEach(element => element.classList.add('in-view'));
-      }
-    })();
-  </script>
+<div class="category-block" data-category-block="developer"><h3 class="category-title"><span class="cat-icon">💻</span> Developer tools</h3><div class="tool-grid">
+<article class="tool-card" data-category="developer" data-search="json formatter pretty print format developer"><div class="tool-top"><span class="tool-icon">{ }</span><span class="status">Coming soon</span></div><h4>JSON Formatter</h4><p>Make JSON easier to read with clean indentation and layout.</p><span class="tool-link disabled">In the works ✨</span></article>
+<article class="tool-card" data-category="developer" data-search="json validator validate syntax errors"><div class="tool-top"><span class="tool-icon">✅</span><span class="status">Coming soon</span></div><h4>JSON Validator</h4><p>Check JSON syntax and find formatting mistakes quickly.</p><span class="tool-link disabled">In the works ✨</span></article>
+<article class="tool-card" data-category="developer" data-search="base64 encoder decoder encode decode text"><div class="tool-top"><span class="tool-icon">🔐</span><span class="status">Coming soon</span></div><h4>Base64 Encoder / Decoder</h4><p>Encode text to Base64 or decode it back in seconds.</p><span class="tool-link disabled">In the works ✨</span></article>
+</div></div>
+<div class="empty-state" id="emptyState"><strong>🤔 No matching tools</strong>Try another search term or choose a different category.</div>
+</div></section>
+<section class="section" id="how-it-works"><div class="container"><div class="section-head"><div><p class="section-kicker">Easy workflow</p><h2>Made to feel simple</h2><p class="section-desc">No complicated steps. Pick a tool and follow the clear controls.</p></div></div><div class="how"><article class="how-card"><span class="how-number">STEP 01</span><h3>🧰 Choose a tool</h3><p>Find the tool you need using categories or the search bar.</p></article><article class="how-card"><span class="how-number">STEP 02</span><h3>⚙️ Add your content</h3><p>Upload a file or enter data, then adjust the available settings.</p></article><article class="how-card"><span class="how-number">STEP 03</span><h3>📥 Get your result</h3><p>Preview the result and download it when you're ready.</p></article></div><div class="privacy-banner" id="privacy"><span class="privacy-icon">🛡️</span><div><h3>Privacy matters</h3><p>Image Compressor processes images in your browser on your device. Other tools may have different processing methods; check each tool's details before using sensitive files.</p></div></div></div></section>
+</main>
+<footer><div class="container footer-inner"><span>© <span id="year"></span> Atiq. Built to make everyday tasks easier.</span><div class="footer-links"><a href="/">Main website</a><a href="#tools">Back to tools ↑</a></div></div></footer>
+<script>
+(()=>{const menu=document.getElementById('menuToggle'),nav=document.getElementById('navLinks'),search=document.getElementById('toolSearch'),filters=[...document.querySelectorAll('.filter')],cards=[...document.querySelectorAll('.tool-card')],blocks=[...document.querySelectorAll('[data-category-block]')],empty=document.getElementById('emptyState');let category='all';document.getElementById('year').textContent=new Date().getFullYear();
+menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'✕ Close':'☰ Menu'});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false');menu.textContent='☰ Menu'}));
+function applyFilters(){const term=search.value.trim().toLowerCase();let count=0;cards.forEach(card=>{const ok=(category==='all'||card.dataset.category===category)&&(!term||(card.dataset.search+' '+card.innerText).toLowerCase().includes(term));card.hidden=!ok;if(ok)count++});blocks.forEach(block=>block.hidden=![...block.querySelectorAll('.tool-card')].some(c=>!c.hidden));empty.style.display=count?'none':'block'}
+filters.forEach(btn=>btn.addEventListener('click',()=>{category=btn.dataset.filter;filters.forEach(f=>{const active=f===btn;f.classList.toggle('active',active);f.setAttribute('aria-pressed',String(active))});applyFilters()}));search.addEventListener('input',applyFilters);
+// Entire available cards are clickable, but their original links remain usable. Coming-soon cards stay inert.
+cards.forEach(card=>{const link=card.querySelector('a.tool-link[href]');if(!link)return;card.classList.add('is-clickable');card.tabIndex=0;card.setAttribute('role','link');card.addEventListener('click',event=>{if(event.target.closest('a'))return;window.location.href=link.href});card.addEventListener('keydown',event=>{if(event.target!==card)return;if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href=link.href}})});
+})();
+</script>
 </body>
 </html>
