@@ -1,297 +1,73 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Check your FESCO electricity bill online using the official PITC billing portal.">
-  <title>FESCO Bill Check Online | Atiq Tools</title>
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #172033;
-    }
-
-    .container {
-      width: min(100% - 24px, 720px);
-      margin: 28px auto;
-    }
-
-    .card {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 18px;
-      padding: 22px;
-      box-shadow: 0 8px 28px rgba(20, 40, 80, .06);
-    }
-
-    .heading { text-align: center; }
-
-    .heading .icon {
-      font-size: 36px;
-      margin-bottom: 8px;
-    }
-
-    h1 { font-size: 27px; margin: 0 0 10px; }
-
-    .muted {
-      color: #64748b;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    label {
-      display: block;
-      font-weight: 700;
-      margin: 22px 0 8px;
-    }
-
-    input {
-      width: 100%;
-      min-height: 50px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      padding: 12px;
-      font-size: 17px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #16734b;
-      box-shadow: 0 0 0 3px rgba(22, 115, 75, .12);
-    }
-
-    .hint {
-      font-size: 12px;
-      color: #64748b;
-      margin: 7px 0 15px;
-    }
-
-    button, .button {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      min-height: 48px;
-      border: 0;
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .primary {
-      color: white;
-      background: #16734b;
-    }
-
-    .primary:hover { background: #105c3b; }
-
-    .secondary {
-      background: #eaf2ff;
-      color: #174ea6;
-      margin-top: 10px;
-    }
-
-    .status {
-      display: none;
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 9px;
-      background: #fff7e6;
-      color: #854d0e;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .status.show { display: block; }
-
-    .frame-title {
-      margin: 22px 0 10px;
-      font-size: 17px;
-    }
-
-    /* Mobile-friendly 4:5 frame */
-    .frame-wrap {
-      width: 100%;
-      aspect-ratio: 4 / 5;
-      min-height: 460px;
-      max-height: 720px;
-      border: 1px solid #dbe3ed;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #fff;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      display: block;
-      border: 0;
-      background: white;
-    }
-
-    .notice {
-      margin-top: 18px;
-      border-radius: 10px;
-      padding: 13px;
-      background: #f0f7ff;
-      color: #334155;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    footer {
-      text-align: center;
-      color: #64748b;
-      font-size: 12px;
-      padding: 20px 8px;
-    }
-
-    @media (max-width: 480px) {
-      .container { margin: 14px auto; }
-      .card { padding: 17px; }
-      h1 { font-size: 23px; }
-      .frame-wrap { min-height: 460px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Open the official FESCO bill portal using Atiq Tools.">
+<title>FESCO Online Bill | Atiq Tools</title>
+<style>
+:root{--green:#087b43;--dark:#056536;--ink:#1f2937;--muted:#64748b;--line:#dce4e8;--page:#f3f6f7}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--page);font-family:Arial,Helvetica,sans-serif}
+.site-header{background:#fff;border-bottom:1px solid var(--line);padding:16px 18px}
+.header-inner,.container,.footer-inner{width:min(100% - 28px,900px);margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:800;color:var(--dark);text-decoration:none}
+.mark{display:grid;place-items:center;width:38px;height:38px;border-radius:10px;color:#fff;background:var(--green);font-size:21px}
+.container{padding:26px 0 34px}.intro{text-align:center;margin-bottom:20px}.intro h1{font-size:clamp(25px,5vw,34px);margin:0 0 9px}.intro p{color:var(--muted);line-height:1.6;margin:0}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px #0f232d0f}
+.panel-heading{background:var(--green);color:#fff;padding:17px 20px;font-size:18px;font-weight:700}.panel-body{padding:clamp(17px,4vw,28px)}
+.notice{background:#f0f8f3;border:1px solid #cce8d6;color:#245c3c;border-radius:9px;padding:12px 14px;font-size:13px;line-height:1.55;margin-bottom:22px}
+label{display:block;font-size:15px;font-weight:700;margin-bottom:9px}
+input{display:block;width:100%;min-height:50px;border:1px solid #bfcbd1;border-radius:8px;padding:12px 14px;font-size:16px;color:var(--ink);background:#fff;outline:none}
+input:focus{border-color:var(--green);box-shadow:0 0 0 3px #087b431f}
+.help{margin:8px 0 18px;font-size:12px;color:var(--muted);line-height:1.5}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button,.button-link{min-height:48px;border:0;border-radius:8px;padding:12px 15px;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;text-align:center}
+.primary{background:var(--green);color:white}.primary:hover{background:var(--dark)}.secondary{background:#eaf1ed;color:var(--dark)}
+.status{display:none;margin-top:15px;border-radius:8px;padding:12px;font-size:13px;line-height:1.55;background:#fff7e6;color:#7a4a00}.status.show{display:block}
+.howto{margin-top:24px}.howto h2{font-size:18px;margin:0 0 10px}.howto ol{margin:0;padding-left:22px;color:#475569;line-height:1.8;font-size:14px}
+.disclaimer{margin-top:18px;color:var(--muted);font-size:12px;line-height:1.6}
+.site-footer{background:#fff;border-top:1px solid var(--line);padding:20px 0}.footer-inner{text-align:center;color:var(--muted);font-size:12px;line-height:1.7}
+@media(max-width:520px){.container{padding-top:20px}.actions{grid-template-columns:1fr}.panel-heading{padding:15px 17px}}
+</style>
 </head>
-
 <body>
-  <main class="container">
-    <section class="card">
-      <header class="heading">
-        <div class="icon" aria-hidden="true">⚡</div>
-        <h1>FESCO Bill Check</h1>
-        <p class="muted">
-          Apna electricity bill official PITC portal par check karein.
-        </p>
-      </header>
-
-      <form id="billForm">
-        <label for="reference">14-Digit Reference Number</label>
-        <input
-          id="reference"
-          name="reference"
-          type="text"
-          inputmode="numeric"
-          autocomplete="off"
-          maxlength="14"
-          pattern="[0-9]{14}"
-          placeholder="Enter 14-digit number"
-          aria-describedby="numberHint"
-          required
-        >
-
-        <p class="hint" id="numberHint">
-          Apne purane electricity bill par Reference No dekhein.
-          Sirf 14 digits enter karein.
-        </p>
-
-        <button class="primary" type="submit">
-          Check Bill
-        </button>
-      </form>
-
-      <div id="status" class="status" role="status" aria-live="polite"></div>
-
-      <button id="openOfficial" class="secondary" type="button">
-        Open Official FESCO Bill Page
-      </button>
-
-      <h2 class="frame-title">Bill Portal Preview</h2>
-
-      <div class="frame-wrap">
-        <iframe
-          id="billFrame"
-          src="https://bill.pitc.com.pk/fescobill"
-          title="Official PITC FESCO bill portal"
-          loading="lazy"
-          referrerpolicy="strict-origin-when-cross-origin"
-        ></iframe>
-      </div>
-
-      <div class="notice">
-        <strong>Portal load nahi ho raha?</strong><br>
-        Official website iframe ko block kar sakti hai.
-        Aisi surat mein “Open Official FESCO Bill Page” button use karein.
-        Bill official PITC website par khulega.
-      </div>
-    </section>
-
-    <footer>
-      Independent utility by Atiq Tools.
-      Not affiliated with FESCO, PITC, WAPDA or NEPRA.
-    </footer>
-  </main>
-
-  <script>
-    (() => {
-      const form = document.getElementById("billForm");
-      const input = document.getElementById("reference");
-      const status = document.getElementById("status");
-      const frame = document.getElementById("billFrame");
-      const openButton = document.getElementById("openOfficial");
-
-      const officialUrl = "https://bill.pitc.com.pk/fescobill";
-
-      function getBillUrl() {
-        const reference = input.value.trim();
-
-        if (!/^[0-9]{14}$/.test(reference)) {
-          status.textContent =
-            "Please apna valid 14-digit reference number enter karein.";
-          status.classList.add("show");
-          input.focus();
-          return null;
-        }
-
-        return officialUrl + "/general?refno=" +
-          encodeURIComponent(reference);
-      }
-
-      function openOfficialPage() {
-        const url = getBillUrl();
-
-        if (!url) return;
-
-        // Direct official portal fallback: works even if iframe is blocked.
-        window.open(url, "_blank", "noopener,noreferrer");
-
-        status.textContent =
-          "Official PITC page new tab mein kholne ki koshish ki gayi hai. " +
-          "Agar tab na khule to browser ki pop-up settings check karein.";
-        status.classList.add("show");
-      }
-
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const url = getBillUrl();
-        if (!url) return;
-
-        // Try displaying the selected bill inside the frame.
-        frame.src = url;
-
-        status.textContent =
-          "Bill portal load karne ki koshish ho rahi hai. " +
-          "Agar frame mein bill na aaye to neeche official page button use karein.";
-        status.classList.add("show");
-      });
-
-      openButton.addEventListener("click", openOfficialPage);
-
-      input.addEventListener("input", () => {
-        input.value = input.value.replace(/\D/g, "").slice(0, 14);
-      });
-    })();
-  </script>
+<header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="Atiq Tools home"><span class="mark" aria-hidden="true">A</span><span>Atiq Tools</span></a></div></header>
+<main class="container">
+<div class="intro"><h1>FESCO Online Bill</h1><p>Enter your 14-digit reference number to continue to the official bill portal.</p></div>
+<section class="panel" aria-labelledby="panelTitle">
+<div class="panel-heading" id="panelTitle">Check Your Electricity Bill</div>
+<div class="panel-body">
+<div class="notice"><strong>Official portal:</strong> Your bill is retrieved on the PITC website. This page does not collect or store your reference number.</div>
+<form id="billForm" novalidate>
+<label for="reference">14-Digit Reference Number</label>
+<input id="reference" name="reference" type="text" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="Enter 14-digit reference number" aria-describedby="referenceHelp" required>
+<p class="help" id="referenceHelp">Find the reference number on a previous FESCO electricity bill. Enter digits only.</p>
+<div class="actions"><button class="primary" type="submit">Continue to Bill</button><a class="button-link secondary" href="https://bill.pitc.com.pk/fescobill" target="_blank" rel="noopener noreferrer">Open Official Portal</a></div>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+</form>
+<div class="howto"><h2>How to check your bill</h2><ol><li>Enter the 14-digit reference number printed on your bill.</li><li>Select <strong>Continue to Bill</strong>.</li><li>The official PITC page opens in a new tab with the reference number included, if the portal supports that URL format.</li></ol></div>
+<p class="disclaimer">Atiq Tools is an independent website and is not affiliated with FESCO, PITC, WAPDA or NEPRA. If the reference number is not filled automatically or the bill does not appear, use the official portal button and enter it there manually.</p>
+</div></section></main>
+<footer class="site-footer"><div class="footer-inner">© <span id="year"></span> Atiq Tools. All rights reserved.<br>Bill information and services are provided by the official portal.</div></footer>
+<script>
+(() => {
+ const form=document.getElementById("billForm");
+ const input=document.getElementById("reference");
+ const status=document.getElementById("status");
+ document.getElementById("year").textContent=new Date().getFullYear();
+ const officialBase="https://bill.pitc.com.pk/fescobill";
+ input.addEventListener("input",()=>{input.value=input.value.replace(/\D/g,"").slice(0,14)});
+ form.addEventListener("submit",(event)=>{
+  event.preventDefault();
+  const reference=input.value.trim();
+  if(!/^\d{14}$/.test(reference)){
+   status.textContent="Please enter a valid 14-digit reference number.";
+   status.classList.add("show");input.focus();return;
+  }
+  const target=officialBase+"/general?refno="+encodeURIComponent(reference);
+  // Redirect this same tab directly to the official PITC result URL.
+  window.location.assign(target);
+ });
+})();
+</script>
 </body>
 </html>
