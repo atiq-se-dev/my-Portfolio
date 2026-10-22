@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10172a">
+
+  <title>Mobile Telecom Search | Atiq-SE Tools</title>
+  <meta name="description" content="Access PakSIMs mobile search through Atiq-SE. Open the external telecom service in a dedicated, mobile-friendly workspace.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://atiq-se.com/tools/mobile-telecom/">
+
+  <meta property="og:title" content="Mobile Telecom Search | Atiq-SE">
+  <meta property="og:description" content="Access the PakSIMs mobile search service from the Atiq-SE tools platform.">
+  <meta property="og:url" content="https://atiq-se.com/tools/mobile-telecom/">
+  <meta property="og:type" content="website">
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.12);
+      --text: #f4f7ff;
+      --muted: #aeb9d0;
+      --accent: #85f0d0;
+      --blue: #8ba5ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 10% 0%, #26356b 0%, transparent 42%),
+        radial-gradient(ellipse at 100% 30%, #123b42 0%, transparent 35%),
+        var(--bg);
+    }
+
+    a { color: inherit; }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: auto;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: 850;
+      text-decoration: none;
+      letter-spacing: -.7px;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      padding: 9px 12px;
+      border-radius: 10px;
+    }
+
+    .nav-links a:hover {
+      background: var(--card);
+      color: white;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 58px 0 30px;
+      animation: appear .6s ease both;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 13px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      color: var(--accent);
+      font-size: 13px;
+    }
+
+    h1 {
+      font-size: clamp(32px, 6vw, 56px);
+      line-height: 1.12;
+      letter-spacing: -1.8px;
+      margin: 20px 0 14px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: auto;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 25px 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 19px;
+      border-radius: 13px;
+      font-weight: 750;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: transform .2s, filter .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    .primary {
+      background: linear-gradient(135deg, var(--accent), #b5f6e3);
+      color: #10172a;
+      border: none;
+    }
+
+    .secondary { background: var(--card); }
+
+    .notice {
+      max-width: 800px;
+      margin: 0 auto 22px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .workspace {
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      overflow: hidden;
+      background: var(--card);
+      box-shadow: 0 20px 70px #0003;
+      animation: appear .8s ease both;
+    }
+
+    .workspace-head {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .workspace-head small { color: var(--muted); }
+
+    .iframe-wrap {
+      background: white;
+      min-height: 650px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 720px;
+      display: block;
+      border: 0;
+      background: white;
+    }
+
+    .info {
+      margin-top: 22px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--card);
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .info strong { color: var(--text); }
+
+    footer {
+      margin-top: 45px;
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    footer a { color: var(--text); }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .container { width: calc(100% - 22px); }
+      .nav { align-items: flex-start; flex-direction: column; }
+      .hero { padding-top: 38px; }
+      .actions .btn { width: 100%; }
+      .workspace-head { align-items: flex-start; flex-direction: column; }
+      iframe { height: 600px; }
+      .iframe-wrap { min-height: 500px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="/">Atiq<span>-SE</span> Tools</a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="/">Home</a>
+      <a href="/tools/">All Tools</a>
+      <a href="https://paksims.com/search/mobile"
+         target="_blank" rel="noopener noreferrer">PakSIMs ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <span class="badge">📱 External Telecom Service</span>
+
+    <h1>Mobile Telecom Search</h1>
+
+    <p>
+      Access the PakSIMs mobile search page from the Atiq-SE tools
+      platform. This is an external service, and its results, availability
+      and privacy practices are controlled by its provider.
+    </p>
+
+    <div class="actions">
+      <a class="btn primary"
+         href="https://paksims.com/search/mobile"
+         target="_blank"
+         rel="noopener noreferrer">
+        Open PakSIMs in New Tab ↗
+      </a>
+
+      <a class="btn secondary" href="/tools/">
+        ← Back to Tools
+      </a>
+    </div>
+  </section>
+
+  <p class="notice">
+    If the embedded website does not load, use the Open PakSIMs button.
+    Some websites block embedding inside other websites for security reasons.
+  </p>
+
+  <section class="workspace">
+    <div class="workspace-head">
+      <strong>PakSIMs Mobile Search</strong>
+      <small>External website · paksims.com</small>
+    </div>
+
+    <div class="iframe-wrap">
+      <iframe
+        src="https://paksims.com/search/mobile"
+        title="PakSIMs mobile search"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin">
+      </iframe>
+    </div>
+  </section>
+
+  <section class="info">
+    <strong>🔒 Privacy and responsible use</strong>
+    <p>
+      Atiq-SE does not process mobile numbers on this page. Information
+      entered into the external service is handled by its provider under
+      its own policies. Use telecom services lawfully and respect the
+      privacy of other people.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <span>© <span id="year"></span> Atiq-SE. All rights reserved.</span>
+    <span>
+      <a href="/">Main Website</a> ·
+      <a href="/tools/">Tools Dashboard</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+</script>
+
+</body>
+    </html>
+    
