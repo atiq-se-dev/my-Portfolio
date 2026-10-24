@@ -268,6 +268,75 @@
   </div>
 
   <script>
+    const BASE_URL = "https://atiq.site.je"; // Aapka InfinityFree backend URL
+
+// 1. Live Login API Call
+async function handleLogin(e) {
+  e.preventDefault();
+  const usernameInput = document.getElementById('username').value.trim();
+  const passwordInput = document.getElementById('password').value.trim();
+
+  try {
+    const res = await fetch(`${BASE_URL}/login.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: usernameInput, password: passwordInput })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      if (data.role === 'admin') {
+        renderAdminDashboard();
+      } else {
+        renderStudentDashboard(data.user);
+      }
+    } else {
+      alert(data.message || "Invalid credentials!");
+    }
+  } catch (err) {
+    alert("Connection error! Please try again.");
+  }
+}
+
+// 2. Fetch Assigned Teachers from Database
+async function fetchTeachers() {
+  try {
+    const res = await fetch(`${BASE_URL}/get_teachers.php`);
+    const data = await res.json();
+    return data.teachers || [];
+  } catch (err) {
+    console.error("Error fetching teachers:", err);
+    return [];
+  }
+}
+
+// 3. Live Evaluation Submission API
+async function submitEvaluation(courseCode, responses) {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  
+  try {
+    const res = await fetch(`${BASE_URL}/submit_eval.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: currentUser.username,
+        course_code: courseCode,
+        q1: responses.q1,
+        q2: responses.q2,
+        q3: responses.q3
+      })
+    });
+    const data = await res.json();
+    
+    alert(data.message);
+    if (data.success) {
+      location.reload(); // Refresh dashboard to reflect submission status
+    }
+  } catch (err) {
+    alert("Failed to submit feedback. Check server connection.");
+  }
+}
+    
     let activeBtn = null;
     let chartInstance = null;
 
