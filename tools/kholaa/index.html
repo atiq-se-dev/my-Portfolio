@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kholaa.com - Coming Soon</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Typography custom styles */
+        .font-serif-custom {
+            font-family: 'Bodoni Moda', serif;
+        }
+        .font-sans-custom {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* WebGL Canvas Background Styling */
+        #fluid-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            object-fit: cover;
+        }
+
+        /* Ambient Glow & Shadow overlays */
+        .text-glow {
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-[#051c24] text-white font-sans-custom overflow-hidden select-none m-0 p-0 min-h-screen flex items-center justify-center">
+
+    <!-- Canvas for Fluid Animated Teal Marble Effect -->
+    <canvas id="fluid-canvas"></canvas>
+
+    <!-- Overlay Vignette Effect -->
+    <div class="fixed inset-0 pointer-events-none bg-gradient-to-b from-black/20 via-transparent to-black/30 z-0"></div>
+
+    <!-- Centered Content Wrapper -->
+    <main class="relative z-10 flex flex-col items-center justify-center text-center px-4 max-w-4xl mx-auto min-h-screen">
+        
+        <!-- Main Brand Title -->
+        <h1 class="font-serif-custom text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] font-medium tracking-tight text-white text-glow mb-6 leading-tight transition-all duration-300">
+            kholaa.com
+        </h1>
+
+        <!-- Subtitle -->
+        <h2 class="font-serif-custom text-2xl sm:text-4xl md:text-5xl font-semibold tracking-wide text-white/95 text-glow uppercase leading-tight max-w-2xl mb-12">
+            SOMETHING IS<br class="hidden sm:block"/> HAPPENING!
+        </h2>
+
+        <!-- Credits / Footer -->
+        <p class="font-sans-custom text-base sm:text-lg md:text-xl text-white/90 font-light tracking-wide drop-shadow-md">
+            Design And Developed By <span class="underline underline-offset-4 decoration-1 font-normal">Atiq</span>
+        </p>
+    </main>
+
+    <!-- Shader Logic for Liquid Teal Background -->
+    <script>
+        const canvas = document.getElementById('fluid-canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+        if (!gl) {
+            console.error('WebGL not supported, falling back to CSS gradient.');
+            document.body.style.background = 'radial-gradient(circle at center, #0e4c59 0%, #031c24 100%)';
+        } else {
+            // Vertex Shader
+            const vsSource = `
+                attribute vec2 a_position;
+                void main() {
+                    gl_Position = vec4(a_position, 0.0, 1.0);
+                }
+            `;
+
+            // Fragment Shader for Teal Liquid Marble Wave Effect
+            const fsSource = `
+                precision highp float;
+                uniform vec2 u_resolution;
+                uniform float u_time;
+
+                // Simplex-like noise helper functions for smooth marble flow
+                vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+                vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+                vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+                float snoise(vec2 v) {
+                    const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+                                     -0.577350269189626, 0.024390243902439);
+                    vec2 i  = floor(v + dot(v, C.yy) );
+                    vec2 x0 = v -   i + dot(i, C.xx);
+                    vec2 i1;
+                    i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+                    vec4 x12 = x0.xyxy + C.xxzz;
+                    x12.xy -= i1;
+                    i = mod289(i);
+                    vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+                        + i.x + vec3(0.0, i1.x, 1.0 ));
+                    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+                    m = m*m ;
+                    m = m*m ;
+                    vec3 x = 2.0 * fract(p * C.www) - 1.0;
+                    vec3 h = abs(x) - 0.5;
+                    vec3 ox = floor(x + 0.5);
+                    vec3 a0 = x - ox;
+                    m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+                    vec3 g;
+                    g.x  = a0.x  * x0.x  + h.x  * x0.y;
+                    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+                    return 130.0 * dot(m, g);
+                }
+
+                void main() {
+                    vec2 st = gl_FragCoord.xy / u_resolution.xy;
+                    st.x *= u_resolution.x / u_resolution.y;
+
+                    // Time scaling for smooth movement
+                    float t = u_time * 0.15;
+
+                    // Layered liquid wave displacement
+                    vec2 q = vec2(0.0);
+                    q.x = snoise(st + vec2(t * 0.2, t * 0.3));
+                    q.y = snoise(st + vec2(0.8, 0.6));
+
+                    vec2 r = vec2(0.0);
+                    r.x = snoise(st + 1.0 * q + vec2(1.7, 9.2) + 0.15 * t);
+                    r.y = snoise(st + 1.0 * q + vec2(8.3, 2.8) + 0.126 * t);
+
+                    float f = snoise(st + 2.5 * r + vec2(t * 0.1, t * 0.05));
+
+                    // Teal palette matching the image
+                    vec3 colorDarkTeal  = vec3(0.02, 0.11, 0.15); // #051c24
+                    vec3 colorMidTeal   = vec3(0.05, 0.29, 0.35); // #0d4a59
+                    vec3 colorLightTeal = vec3(0.24, 0.55, 0.60); // #3d8c99
+                    vec3 colorWhiteHighlight = vec3(0.72, 0.85, 0.87); // Liquid marble highlight
+
+                    // Color mixing based on wave noise values
+                    vec3 color = mix(colorDarkTeal, colorMidTeal, clamp(f * f * 4.0, 0.0, 1.0));
+                    color = mix(color, colorLightTeal, clamp(length(q), 0.0, 1.0));
+                    color = mix(color, colorWhiteHighlight, clamp(length(r.x), 0.0, 0.35));
+
+                    // Vignette to soften edges
+                    float dist = distance(gl_FragCoord.xy / u_resolution.xy, vec2(0.5));
+                    color *= (1.0 - dist * 0.4);
+
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `;
+
+            // Function to compile shaders
+            function createShader(gl, type, source) {
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
+                    gl.deleteShader(shader);
+                    return null;
+                }
+                return shader;
+            }
+
+            const vertexShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
+            const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+
+            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                console.error('Program link error:', gl.getProgramInfoLog(program));
+            } else {
+                gl.useProgram(program);
+
+                // Setup full-screen quad
+                const positionBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+                    -1, -1,
+                     1, -1,
+                    -1,  1,
+                    -1,  1,
+                     1, -1,
+                     1,  1,
+                ]), gl.STATIC_DRAW);
+
+                const positionLocation = gl.getAttribLocation(program, 'a_position');
+                gl.enableVertexAttribArray(positionLocation);
+                gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+                const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
+                const timeLocation = gl.getUniformLocation(program, 'u_time');
+
+                function resize() {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    gl.viewport(0, 0, canvas.width, canvas.height);
+                }
+
+                window.addEventListener('resize', resize);
+                resize();
+
+                // Animation loop
+                let startTime = performance.now();
+                function render() {
+                    const currentTime = (performance.now() - startTime) * 0.001;
+                    
+                    gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                    gl.uniform1f(timeLocation, currentTime);
+
+                    gl.drawArrays(gl.TRIANGLES, 0, 6);
+                    requestAnimationFrame(render);
+                }
+
+                window.onload = function() {
+                    requestAnimationFrame(render);
+                };
+            }
+        }
+    </script>
+</body>
+</html>
