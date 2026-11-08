@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHOLORA Jewellery | B2B & Retail Artificial Jewellery Store</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cormorant Garamond & Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        kholora: {
+                            black: '#0a0a0a',
+                            dark: '#120d0f',
+                            card: '#1a1215',
+                            burgundy: '#58111f',
+                            velvet: '#781a2e',
+                            gold: '#d4af37',
+                            'gold-light': '#f3e5ab',
+                            'gold-dark': '#aa820a',
+                            champagne: '#e6c888',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    animation: {
+                        'spin-slow': 'spin 8s linear infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2.5s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', filter: 'drop-shadow(0 0 15px rgba(212,175,55,0.6))' },
+                            '50%': { opacity: '1', filter: 'drop-shadow(0 0 30px rgba(212,175,55,0.9))' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #f3e5ab;
+            overflow-x: hidden;
+        }
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        /* Custom Velvet Glow Gradient */
+        .velvet-gradient {
+            background: radial-gradient(circle at 50% 20%, rgba(120, 26, 46, 0.4) 0%, rgba(10, 10, 10, 0.95) 70%);
+        }
+        /* Gold Shimmer Text */
+        .gold-shimmer {
+            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa820a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Glassmorphism card */
+        .glass-card {
+            background: rgba(26, 18, 21, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .glass-card:hover {
+            border-color: rgba(212, 175, 55, 0.6);
+            box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.3);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #58111f;
+            border-radius: 4px;
+            border: 1px solid #d4af37;
+        }
+    </style>
+</head>
+<body class="bg-kholora-black text-kholora-gold-light antialiased selection:bg-kholora-velvet selection:text-white">
+
+    <!-- PRELOADER / HERO ENTRANCE WITH SPINNERS -->
+    <div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-kholora-black transition-opacity duration-1000">
+        <div class="relative w-40 h-40 flex items-center justify-center mb-6">
+            <!-- Spinning Neon Gold Loading Ring -->
+            <svg class="absolute inset-0 w-full h-full animate-spin-slow" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(212,175,55,0.15)" stroke-width="2"/>
+                <circle cx="50" cy="50" r="46" fill="none" stroke="#d4af37" stroke-width="3" stroke-dasharray="80 210" stroke-linecap="round" class="animate-pulse"/>
+            </svg>
+            <!-- Inner Glowing Aura -->
+            <div class="absolute inset-3 rounded-full bg-gradient-to-tr from-kholora-burgundy to-kholora-velvet opacity-50 blur-md animate-pulse-glow"></div>
+            <!-- Logo inside Preloader -->
+            <img src="https://placehold.co/120x120/120d0f/d4af37?text=K" alt="Kholora Logo" class="relative z-10 w-24 h-24 rounded-full object-cover border border-kholora-gold shadow-2xl">
+        </div>
+        <h2 class="font-serif text-3xl font-bold tracking-widest gold-shimmer uppercase">KHOLORA</h2>
+        <p class="text-xs uppercase tracking-[0.3em] text-kholora-champagne mt-2">Exquisite Artificial Jewellery</p>
+        <div class="w-32 h-[2px] bg-gradient-to-r from-transparent via-kholora-gold to-transparent mt-6"></div>
+    </div>
+
+    <!-- FLOATING ACTION BUTTONS -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col space-y-3">
+        <!-- Quick Inquiry Modal Trigger -->
+        <button onclick="openModal('inquiry')" class="group relative flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-kholora-burgundy to-kholora-velvet text-kholora-gold rounded-full shadow-2xl border border-kholora-gold hover:scale-110 transition-all duration-300" title="B2B Wholesale Inquiry">
+            <i class="fa-solid fa-file-invoice-dollar text-xl group-hover:rotate-12 transition-transform"></i>
+            <span class="absolute right-16 bg-kholora-card text-xs font-semibold px-3 py-1 rounded-md border border-kholora-gold text-kholora-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-xl">B2B Wholesale Quote</span>
+        </button>
+        <!-- WhatsApp Floating Button -->
+        <a href="https://wa.me/923000000000?text=Hello%20Kholora%20Team,%20I%20am%20interested%20in%20your%20Artificial%20Jewellery%20collection." target="_blank" class="group relative flex items-center justify-center w-14 h-14 bg-emerald-600 text-white rounded-full shadow-2xl border border-emerald-400 hover:scale-110 transition-all duration-300" title="Chat on WhatsApp">
+            <i class="fa-brands fa-whatsapp text-2xl group-hover:scale-110 transition-transform"></i>
+            <span class="absolute right-16 bg-kholora-card text-xs font-semibold px-3 py-1 rounded-md border border-emerald-500 text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-xl">Chat on WhatsApp</span>
+        </a>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="fixed top-0 left-0 right-0 z-40 bg-kholora-black/90 backdrop-blur-md border-b border-kholora-gold/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo & Name -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="relative w-12 h-12 rounded-full overflow-hidden border border-kholora-gold flex items-center justify-center bg-kholora-dark shadow-lg">
+                    <!-- Spinning ring on header logo -->
+                    <svg class="absolute inset-0 w-full h-full animate-spin-slow" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="46" fill="none" stroke="#d4af37" stroke-width="4" stroke-dasharray="60 220" stroke-linecap="round"/>
+                    </svg>
+                    <span class="font-serif text-xl font-bold gold-shimmer">K</span>
+                </div>
+                <div>
+                    <h1 class="font-serif text-xl font-bold tracking-widest gold-shimmer leading-tight">KHOLORA</h1>
+                    <span class="text-[9px] uppercase tracking-[0.25em] text-kholora-champagne">Jewellery</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm uppercase tracking-widest font-medium text-kholora-champagne">
+                <a href="#hero" class="hover:text-kholora-gold transition-colors">Home</a>
+                <a href="#collections" class="hover:text-kholora-gold transition-colors">Collections</a>
+                <a href="#b2b" class="hover:text-kholora-gold transition-colors">B2B Wholesale</a>
+                <a href="#retail" class="hover:text-kholora-gold transition-colors">Retail Store</a>
+                <a href="#about" class="hover:text-kholora-gold transition-colors">Our Legacy</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center space-x-4">
+                <button onclick="openModal('cart')" class="relative p-2 text-kholora-gold hover:text-white transition-colors" title="Cart">
+                    <i class="fa-solid fa-bag-shopping text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-kholora-velvet text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border border-kholora-gold font-bold">2</span>
+                </button>
+                <button onclick="openModal('inquiry')" class="hidden sm:inline-flex items-center px-5 py-2.5 rounded-full bg-gradient-to-r from-kholora-burgundy to-kholora-velvet border border-kholora-gold/50 text-kholora-gold text-xs uppercase tracking-widest font-semibold hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:scale-105 transition-all duration-300">
+                    <i class="fa-solid fa-handshake mr-2"></i> Partner With Us
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-kholora-gold text-2xl p-2">
+                    <i class="fa-solid fa-bars" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-kholora-card border-b border-kholora-gold/20 px-6 py-4 space-y-4">
+            <a href="#hero" onclick="toggleMobileMenu()" class="block text-sm uppercase tracking-widest text-kholora-champagne hover:text-kholora-gold">Home</a>
+            <a href="#collections" onclick="toggleMobileMenu()" class="block text-sm uppercase tracking-widest text-kholora-champagne hover:text-kholora-gold">Collections</a>
+            <a href="#b2b" onclick="toggleMobileMenu()" class="block text-sm uppercase tracking-widest text-kholora-champagne hover:text-kholora-gold">B2B Wholesale</a>
+            <a href="#retail" onclick="toggleMobileMenu()" class="block text-sm uppercase tracking-widest text-kholora-champagne hover:text-kholora-gold">Retail Store</a>
+            <a href="#about" onclick="toggleMobileMenu()" class="block text-sm uppercase tracking-widest text-kholora-champagne hover:text-kholora-gold">Our Legacy</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION WITH LOGO & TYPING TEXT -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-20 velvet-gradient overflow-hidden">
+        <!-- Floating velvet silk ambient elements -->
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-kholora-burgundy/30 rounded-full blur-3xl pointer-events-none animate-float"></div>
+        <div class="absolute bottom-10 -right-20 w-[30rem] h-[30rem] bg-kholora-velvet/20 rounded-full blur-3xl pointer-events-none animate-float" style="animation-delay: 2s;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
+            <!-- Left Text Content -->
+            <div class="flex-1 text-center lg:text-left space-y-6">
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-kholora-burgundy/40 border border-kholora-gold/40 text-xs tracking-widest text-kholora-gold uppercase">
+                    <i class="fa-solid fa-gem animate-bounce"></i>
+                    <span>Official kholora.com Launch</span>
+                </div>
+                
+                <h2 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
+                    Timeless Luxury, <br>
+                    <span class="gold-shimmer italic font-normal">Unrivaled Elegance</span>
+                </h2>
+
+                <!-- Dynamic Typing Tagline -->
+                <div class="h-10 flex items-center justify-center lg:justify-start">
+                    <span class="text-lg sm:text-xl font-medium tracking-wide text-kholora-champagne">Specialized in <span id="typing-text" class="text-kholora-gold border-b-2 border-kholora-gold pb-0.5"></span></span>
+                </div>
+
+                <p class="text-gray-400 max-w-xl mx-auto lg:mx-0 text-sm sm:text-base font-light leading-relaxed">
+                    Welcome to Kholora Jewellery. We curate world-class artificial masterpieces designed for both discerning retail clients and elite B2B wholesale partners worldwide. Experience brilliance without compromise.
+                </p>
+
+                <!-- Call to action buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                    <a href="#collections" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-kholora-burgundy via-kholora-velvet to-kholora-burgundy border border-kholora-gold text-kholora-gold font-semibold uppercase tracking-widest text-xs hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] transition-all duration-300 text-center">
+                        Explore Collections
+                    </a>
+                    <a href="#b2b" class="w-full sm:w-auto px-8 py-4 rounded-full bg-kholora-card/80 border border-kholora-gold/40 text-kholora-champagne font-semibold uppercase tracking-widest text-xs hover:border-kholora-gold hover:bg-kholora-burgundy/30 transition-all duration-300 text-center">
+                        B2B Wholesale Portal
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Hero Logo Showcase with Spinning Border -->
+            <div class="flex-1 flex items-center justify-center">
+                <div class="relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center">
+                    <!-- Spinning glowing outer loader ring -->
+                    <svg class="absolute inset-0 w-full h-full animate-spin-slow" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(212,175,55,0.2)" stroke-width="1.5"/>
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="#d4af37" stroke-width="2.5" stroke-dasharray="100 200" stroke-linecap="round"/>
+                    </svg>
+                    <!-- Inner Velvet glow -->
+                    <div class="absolute inset-6 rounded-full bg-gradient-to-br from-kholora-burgundy via-kholora-dark to-kholora-black border-2 border-kholora-gold/50 shadow-[0_0_50px_rgba(120,26,46,0.6)] flex items-center justify-center p-6 text-center">
+                        <!-- User's Provided Logo Image -->
+                        <div class="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+                            <img src="1000657983.jpg" alt="Kholora Jewellery Logo" class="w-full h-full object-cover rounded-full shadow-2xl border border-kholora-gold/60" onerror="this.src='https://placehold.co/400x400/120d0f/d4af37?text=Kholora+Logo'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST & FEATURES BAR -->
+    <section class="border-y border-kholora-gold/20 bg-kholora-dark/80 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="p-4 flex flex-col items-center space-y-2">
+                <i class="fa-solid fa-crown text-3xl gold-shimmer"></i>
+                <h4 class="font-serif text-lg font-bold text-kholora-champagne">Master Craftsmanship</h4>
+                <p class="text-xs text-gray-400">Exquisite micro-setting & flawless polish</p>
+            </div>
+            <div class="p-4 flex flex-col items-center space-y-2">
+                <i class="fa-solid fa-boxes-stacked text-3xl gold-shimmer"></i>
+                <h4 class="font-serif text-lg font-bold text-kholora-champagne">B2B Bulk Orders</h4>
+                <p class="text-xs text-gray-400">Competitive wholesale pricing for retailers</p>
+            </div>
+            <div class="p-4 flex flex-col items-center space-y-2">
+                <i class="fa-solid fa-shield-halved text-3xl gold-shimmer"></i>
+                <h4 class="font-serif text-lg font-bold text-kholora-champagne">Tarnish Resistant</h4>
+                <p class="text-xs text-gray-400">Premium 18k champagne gold plating</p>
+            </div>
+            <div class="p-4 flex flex-col items-center space-y-2">
+                <i class="fa-solid fa-truck-fast text-3xl gold-shimmer"></i>
+                <h4 class="font-serif text-lg font-bold text-kholora-champagne">Secure Nationwide</h4>
+                <p class="text-xs text-gray-400">Fast delivery across Pakistan & global</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCT COLLECTIONS SHOWCASE -->
+    <section id="collections" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+            <span class="text-xs uppercase tracking-[0.3em] text-kholora-gold font-semibold">Masterpieces</span>
+            <h3 class="font-serif text-4xl sm:text-5xl font-bold gold-shimmer">Signature Collections</h3>
+            <p class="text-gray-400 text-sm">Explore our opulent assortment of bridal sets, statement rings, majestic necklaces, and radiant earrings.</p>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+            <button onclick="filterProducts('all')" class="px-6 py-2 rounded-full border border-kholora-gold bg-kholora-burgundy text-kholora-gold text-xs uppercase tracking-wider font-medium transition-all filter-btn active-tab">All Pieces</button>
+            <button onclick="filterProducts('bridal')" class="px-6 py-2 rounded-full border border-kholora-gold/40 text-kholora-champagne text-xs uppercase tracking-wider font-medium hover:border-kholora-gold transition-all filter-btn">Bridal Sets</button>
+            <button onclick="filterProducts('necklaces')" class="px-6 py-2 rounded-full border border-kholora-gold/40 text-kholora-champagne text-xs uppercase tracking-wider font-medium hover:border-kholora-gold transition-all filter-btn">Necklaces</button>
+            <button onclick="filterProducts('rings')" class="px-6 py-2 rounded-full border border-kholora-gold/40 text-kholora-champagne text-xs uppercase tracking-wider font-medium hover:border-kholora-gold transition-all filter-btn">Rings & Bangles</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Product 1 -->
+            <div class="glass-card rounded-2xl overflow-hidden group transition-all duration-300 product-item" data-category="bridal">
+                <div class="relative h-80 overflow-hidden bg-kholora-dark">
+                    <img src="https://placehold.co/600x700/1a1215/d4af37?text=Royal+Bridal+Set" alt="Royal Bridal Set" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-3 left-3 bg-kholora-velvet/90 text-kholora-gold text-[10px] uppercase font-bold px-3 py-1 rounded-full border border-kholora-gold/40">Bestseller</div>
+                    <button onclick="quickView('Royal Bridal Set', 'PKR 45,000', '18k Champagne Gold Plated Zirconia Royal Bridal Necklace & Earring Set.')" class="absolute bottom-4 left-4 right-4 py-2.5 bg-kholora-black/80 backdrop-blur-md border border-kholora-gold text-kholora-gold rounded-xl text-xs uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">Quick View</button>
+                </div>
+                <div class="p-6 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] uppercase tracking-widest text-kholora-champagne">Bridal Suite</span>
+                        <div class="text-kholora-gold text-xs"><i class="fa-solid fa-star"></i> 4.9 (128)</div>
+                    </div>
+                    <h4 class="font-serif text-xl font-bold text-white group-hover:text-kholora-gold transition-colors">Royal Zirconia Bridal Set</h4>
+                    <div class="flex items-center justify-between pt-2">
+                        <span class="text-kholora-gold font-bold text-lg">PKR 45,000</span>
+                        <button onclick="addToCart('Royal Bridal Set')" class="w-9 h-9 rounded-full bg-kholora-burgundy border border-kholora-gold flex items-center justify-center text-kholora-gold hover:bg-kholora-gold hover:text-kholora-black transition-colors"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="glass-card rounded-2xl overflow-hidden group transition-all duration-300 product-item" data-category="necklaces">
+                <div class="relative h-80 overflow-hidden bg-kholora-dark">
+                    <img src="https://placehold.co/600x700/1a1215/d4af37?text=Velvet+Choker" alt="Velvet Choker" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-3 left-3 bg-kholora-velvet/90 text-kholora-gold text-[10px] uppercase font-bold px-3 py-1 rounded-full border border-kholora-gold/40">New Arrival</div>
+                    <button onclick="quickView('Imperial Velvet Choker', 'PKR 18,500', 'Intricate American Diamond choker with maroon velvet accents and pearl drops.')" class="absolute bottom-4 left-4 right-4 py-2.5 bg-kholora-black/80 backdrop-blur-md border border-kholora-gold text-kholora-gold rounded-xl text-xs uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">Quick View</button>
+                </div>
+                <div class="p-6 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] uppercase tracking-widest text-kholora-champagne">Necklace</span>
+                        <div class="text-kholora-gold text-xs"><i class="fa-solid fa-star"></i> 4.8 (94)</div>
+                    </div>
+                    <h4 class="font-serif text-xl font-bold text-white group-hover:text-kholora-gold transition-colors">Imperial Velvet Choker</h4>
+                    <div class="flex items-center justify-between pt-2">
+                        <span class="text-kholora-gold font-bold text-lg">PKR 18,500</span>
+                        <button onclick="addToCart('Imperial Velvet Choker')" class="w-9 h-9 rounded-full bg-kholora-burgundy border border-kholora-gold flex items-center justify-center text-kholora-gold hover:bg-kholora-gold hover:text-kholora-black transition-colors"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="glass-card rounded-2xl overflow-hidden group transition-all duration-300 product-item" data-category="rings">
+                <div class="relative h-80 overflow-hidden bg-kholora-dark">
+                    <img src="https://placehold.co/600x700/1a1215/d4af37?text=Solitaire+Ring" alt="Solitaire Ring" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-3 left-3 bg-emerald-800/90 text-emerald-200 text-[10px] uppercase font-bold px-3 py-1 rounded-full border border-emerald-400/40">B2B Favorite</div>
+                    <button onclick="quickView('Majestic Solitaire Ring', 'PKR 6,500', 'Adjustable 18k rose gold finished solitaire ring with high clarity simulated diamond.')" class="absolute bottom-4 left-4 right-4 py-2.5 bg-kholora-black/80 backdrop-blur-md border border-kholora-gold text-kholora-gold rounded-xl text-xs uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">Quick View</button>
+                </div>
+                <div class="p-6 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] uppercase tracking-widest text-kholora-champagne">Ring</span>
+                        <div class="text-kholora-gold text-xs"><i class="fa-solid fa-star"></i> 5.0 (210)</div>
+                    </div>
+                    <h4 class="font-serif text-xl font-bold text-white group-hover:text-kholora-gold transition-colors">Majestic Solitaire Ring</h4>
+                    <div class="flex items-center justify-between pt-2">
+                        <span class="text-kholora-gold font-bold text-lg">PKR 6,500</span>
+                        <button onclick="addToCart('Majestic Solitaire Ring')" class="w-9 h-9 rounded-full bg-kholora-burgundy border border-kholora-gold flex items-center justify-center text-kholora-gold hover:bg-kholora-gold hover:text-kholora-black transition-colors"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="glass-card rounded-2xl overflow-hidden group transition-all duration-300 product-item" data-category="bridal">
+                <div class="relative h-80 overflow-hidden bg-kholora-dark">
+                    <img src="https://placehold.co/600x700/1a1215/d4af37?text=Jhumka+Earrings" alt="Jhumka Earrings" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-3 left-3 bg-kholora-velvet/90 text-kholora-gold text-[10px] uppercase font-bold px-3 py-1 rounded-full border border-kholora-gold/40">Trending</div>
+                    <button onclick="quickView('Kholora Heritage Jhumkas', 'PKR 12,000', 'Traditional polki and champagne CZ jhumkas with delicate dangling pearls.')" class="absolute bottom-4 left-4 right-4 py-2.5 bg-kholora-black/80 backdrop-blur-md border border-kholora-gold text-kholora-gold rounded-xl text-xs uppercase font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">Quick View</button>
+                </div>
+                <div class="p-6 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] uppercase tracking-widest text-kholora-champagne">Earrings</span>
+                        <div class="text-kholora-gold text-xs"><i class="fa-solid fa-star"></i> 4.9 (76)</div>
+                    </div>
+                    <h4 class="font-serif text-xl font-bold text-white group-hover:text-kholora-gold transition-colors">Heritage CZ Jhumkas</h4>
+                    <div class="flex items-center justify-between pt-2">
+                        <span class="text-kholora-gold font-bold text-lg">PKR 12,000</span>
+                        <button onclick="addToCart('Heritage CZ Jhumkas')" class="w-9 h-9 rounded-full bg-kholora-burgundy border border-kholora-gold flex items-center justify-center text-kholora-gold hover:bg-kholora-gold hover:text-kholora-black transition-colors"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- B2B WHOLESALE SECTION -->
+    <section id="b2b" class="py-24 bg-gradient-to-b from-kholora-black via-kholora-card to-kholora-black border-y border-kholora-gold/20 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-kholora-burgundy/50 border border-kholora-gold/40 text-xs tracking-widest text-kholora-gold uppercase">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <span>B2B Wholesale & Retail Portal</span>
+                    </div>
+                    <h3 class="font-serif text-4xl sm:text-5xl font-bold leading-tight">Partner with Kholora for <span class="gold-shimmer">Wholesale Excellence</span></h3>
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                        Are you a boutique owner, salon curator, or retail jewelry store looking for premium artificial jewelry at direct manufacturer wholesale rates? Kholora offers bulk supply, custom packaging, and secure B2B pricing tiers.
+                    </p>
+                    <ul class="space-y-3 text-sm text-kholora-champagne">
+                        <li class="flex items-center space-x-3"><i class="fa-solid fa-circle-check text-kholora-gold"></i> <span>Minimum Order Quantity (MOQ) starting from only 10 pieces</span></li>
+                        <li class="flex items-center space-x-3"><i class="fa-solid fa-circle-check text-kholora-gold"></i> <span>Dedicated Account Manager & Shop Manager Role Access</span></li>
+                        <li class="flex items-center space-x-3"><i class="fa-solid fa-circle-check text-kholora-gold"></i> <span>Custom branding boxes with your store logo available</span></li>
+                    </ul>
+                    <div class="pt-4">
+                        <button onclick="openModal('inquiry')" class="px-8 py-4 rounded-full bg-gradient-to-r from-kholora-burgundy to-kholora-velvet border border-kholora-gold text-kholora-gold text-xs uppercase font-bold tracking-widest hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all">
+                            Request Wholesale Catalog
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- B2B Quick Quote Card -->
+                <div class="glass-card p-8 sm:p-10 rounded-3xl border border-kholora-gold/40 shadow-2xl">
+                    <h4 class="font-serif text-2xl font-bold text-kholora-gold mb-6">Quick B2B Quote Inquiry</h4>
+                    <form onsubmit="handleB2BSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-kholora-champagne mb-2">Business Name</label>
+                            <input type="text" required placeholder="e.g. Elegance Boutique Lahore" class="w-full bg-kholora-black border border-kholora-gold/30 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-kholora-gold">
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-kholora-champagne mb-2">Contact Person</label>
+                                <input type="text" required placeholder="Your Name" class="w-full bg-kholora-black border border-kholora-gold/30 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-kholora-gold">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-kholora-champagne mb-2">WhatsApp / Phone</label>
+                                <input type="tel" required placeholder="+92 300 0000000" class="w-full bg-kholora-black border border-kholora-gold/30 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-kholora-gold">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-kholora-champagne mb-2">Estimated Monthly Volume</label>
+                            <select class="w-full bg-kholora-black border border-kholora-gold/30 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-kholora-gold">
+                                <option>50 - 200 Pieces</option>
+                                <option>200 - 500 Pieces</option>
+                                <option>500+ Pieces (Enterprise Tier)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full py-4 rounded-xl bg-kholora-gold text-kholora-black font-bold uppercase tracking-wider text-xs hover:bg-kholora-champagne transition-colors shadow-lg">
+                            Submit Wholesale Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-kholora-black border-t border-kholora-gold/20 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            <div class="space-y-4">
+                <div class="flex items-center space-x-3">
+                    <img src="1000657983.jpg" alt="Logo" class="w-10 h-10 rounded-full object-cover border border-kholora-gold">
+                    <span class="font-serif text-xl font-bold gold-shimmer tracking-widest">KHOLORA</span>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    The ultimate destination for premium artificial jewelry. Designed for retail elegance and B2B wholesale partnership. Established for kholora.com.
+                </p>
+                <div class="flex space-x-4 text-kholora-gold">
+                    <a href="#" class="w-9 h-9 rounded-full bg-kholora-card border border-kholora-gold/30 flex items-center justify-center hover:bg-kholora-burgundy transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-kholora-card border border-kholora-gold/30 flex items-center justify-center hover:bg-kholora-burgundy transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-kholora-card border border-kholora-gold/30 flex items-center justify-center hover:bg-kholora-burgundy transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+            
+            <div>
+                <h5 class="font-serif text-lg font-bold text-kholora-gold mb-4">Quick Links</h5>
+                <ul class="space-y-2 text-xs text-gray-400 uppercase tracking-widest">
+                    <li><a href="#hero" class="hover:text-kholora-gold transition-colors">Home</a></li>
+                    <li><a href="#collections" class="hover:text-kholora-gold transition-colors">Collections</a></li>
+                    <li><a href="#b2b" class="hover:text-kholora-gold transition-colors">B2B Wholesale</a></li>
+                    <li><a href="#about" class="hover:text-kholora-gold transition-colors">Our Legacy</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h5 class="font-serif text-lg font-bold text-kholora-gold mb-4">Categories</h5>
+                <ul class="space-y-2 text-xs text-gray-400 uppercase tracking-widest">
+                    <li><a href="#" class="hover:text-kholora-gold transition-colors">Bridal Sets</a></li>
+                    <li><a href="#" class="hover:text-kholora-gold transition-colors">Luxury Necklaces</a></li>
+                    <li><a href="#" class="hover:text-kholora-gold transition-colors">American Diamond Rings</a></li>
+                    <li><a href="#" class="hover:text-kholora-gold transition-colors">Pearl & Polki Jhumkas</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h5 class="font-serif text-lg font-bold text-kholora-gold mb-4">Newsletter</h5>
+                <p class="text-xs text-gray-400 mb-4">Subscribe to receive private sales and new B2B arrivals.</p>
+                <form onsubmit="handleNewsletter(event)" class="space-y-2">
+                    <input type="email" required placeholder="Enter your email" class="w-full bg-kholora-card border border-kholora-gold/30 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-kholora-gold">
+                    <button type="submit" class="w-full py-2.5 bg-kholora-burgundy border border-kholora-gold text-kholora-gold text-xs font-semibold uppercase tracking-wider rounded-xl hover:bg-kholora-gold hover:text-kholora-black transition-colors">Join Club</button>
+    
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-kholora-gold/10 text-center text-xs text-gray-500">
+            &copy; 2026 KHOLORA Jewellery (kholora.com). All Rights Reserved. Powered by Atiq-SE.
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE MODAL DIALOG -->
+    <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden">
+        <div class="glass-card max-w-lg w-full mx-4 p-8 rounded-3xl border border-kholora-gold relative shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-kholora-gold hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modal-content">
+                <!-- Dynamic content injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Preloader fade out
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.style.opacity = '0';
+                setTimeout(() => preloader.style.display = 'none', 1000);
+            }, 1200);
+        });
+
+        // Typing Effect for Taglines
+        const words = ['Exquisite Artificial Jewelry', 'Crafted for Elegance', 'B2B Wholesale & Retail'];
+        let i = 0;
+        let timer;
+
+        function typingEffect() {
+            let word = words[i].split("");
+            let loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('typing-text').innerHTML += word.shift();
+                } else {
+                    setTimeout(deletingEffect, 2000);
+                    return;
+                }
+                timer = setTimeout(loopTyping, 100);
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = words[i].split("");
+            let loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('typing-text').innerHTML = word.join("");
+                } else {
+                    i = (i + 1) % words.length;
+                    setTimeout(typingEffect, 500);
+                    return;
+                }
+                timer = setTimeout(loopDeleting, 50);
+            };
+            loopDeleting();
+        }
+        typingEffect();
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('hidden');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
+        }
+
+        // Product Filtering
+        function filterProducts(category) {
+            const items = document.querySelectorAll('.product-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-kholora-burgundy', 'text-kholora-gold');
+                btn.classList.add('text-kholora-champagne');
+            });
+            event.target.classList.add('bg-kholora-burgundy', 'text-kholora-gold');
+            event.target.classList.remove('text-kholora-champagne');
+
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Modal Handler
+        function openModal(type, title = '', price = '', desc = '') {
+            const modal = document.getElementById('modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('hidden');
+
+            if (type === 'inquiry') {
+                content.innerHTML = `
+                    <h3 class="font-serif text-2xl font-bold text-kholora-gold mb-4">B2B Wholesale Inquiry</h3>
+                    <p class="text-xs text-gray-300 mb-6">Fill out your details and our wholesale team will dispatch the catalog to your WhatsApp instantly.</p>
+                    <form onsubmit="handleFormSuccess(event)" class="space-y-4">
+                        <input type="text" required placeholder="Full Name / Store Name" class="w-full bg-kholora-black border border-kholora-gold/30 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-kholora-gold">
+                        <input type="tel" required placeholder="WhatsApp Number" class="w-full bg-kholora-black border border-kholora-gold/30 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-kholora-gold">
+                        <textarea rows="3" placeholder="Specify your requirements or items..." class="w-full bg-kholora-black border border-kholora-gold/30 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-kholora-gold"></textarea>
+                        <button type="submit" class="w-full py-3 bg-kholora-gold text-kholora-black font-bold uppercase tracking-wider text-xs rounded-xl">Send Inquiry</button>
+                    </form>
+                `;
+            } else if (type === 'cart') {
+                content.innerHTML = `
+                    <h3 class="font-serif text-2xl font-bold text-kholora-gold mb-4">Your Shopping Bag</h3>
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between items-center bg-kholora-black p-3 rounded-xl border border-kholora-gold/20">
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Royal Zirconia Bridal Set</h4>
+                                <span class="text-xs text-kholora-gold">PKR 45,000</span>
+                            </div>
+                            <span class="text-xs text-gray-400">Qty: 1</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-kholora-black p-3 rounded-xl border border-kholora-gold/20">
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Majestic Solitaire Ring</h4>
+                                <span class="text-xs text-kholora-gold">PKR 6,500</span>
+                            </div>
+                            <span class="text-xs text-gray-400">Qty: 1</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between font-serif text-lg text-kholora-gold mb-6 border-t border-kholora-gold/20 pt-4">
+                        <span>Total:</span>
+                        <span>PKR 51,500</span>
+                    </div>
+                    <button onclick="closeModal(); alertBox('Checkout feature is ready for WooCommerce integration!');" class="w-full py-3.5 bg-gradient-to-r from-kholora-burgundy to-kholora-velvet border border-kholora-gold text-kholora-gold font-bold uppercase tracking-widest text-xs rounded-xl">Proceed to Checkout</button>
+                `;
+            } else if (type === 'quickview') {
+                content.innerHTML = `
+                    <div class="text-center space-y-4">
+                        <h3 class="font-serif text-2xl font-bold text-kholora-gold">${title}</h3>
+                        <p class="text-kholora-gold text-lg font-bold">${price}</p>
+                        <p class="text-xs text-gray-300 leading-relaxed">${desc}</p>
+                        <button onclick="closeModal(); addToCart('${title}');" class="w-full py-3 bg-kholora-gold text-kholora-black font-bold uppercase tracking-wider text-xs rounded-xl">Add to Bag</button>
+                    </div>
+                `;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+
+        function quickView(title, price, desc) {
+            openModal('quickview', title, price, desc);
+        }
+
+        function addToCart(item) {
+            alertBox(`Successfully added "${item}" to your shopping bag!`);
+        }
+
+        function handleB2BSubmit(e) {
+            e.preventDefault();
+            alertBox('Thank you! Your B2B wholesale quotation request has been submitted successfully.');
+            e.target.reset();
+        }
+
+        function handleNewsletter(e) {
+            e.preventDefault();
+            alertBox('Thank you for joining the Kholora club!');
+            e.target.reset();
+        }
+
+        function alertBox(message) {
+            // Custom message box instead of alert()
+            const modal = document.getElementById('modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('hidden');
+            content.innerHTML = `
+                <div class="text-center space-y-4 py-4">
+                    <i class="fa-solid fa-circle-check text-4xl text-kholora-gold"></i>
+                    <h3 class="font-serif text-xl font-bold text-white">Kholora Notification</h3>
+                    <p class="text-xs text-gray-300">${message}</p>
+                    <button onclick="closeModal()" class="px-6 py-2.5 bg-kholora-gold text-kholora-black font-bold uppercase text-xs rounded-xl">OK</button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
